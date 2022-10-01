@@ -1,0 +1,86 @@
+.seller_ad_b {
+    height: 40vh;
+}
+
+.first {
+    background-color: #264653;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8));
+    z-index: 0;
+    position: relative;
+    color: black;
+}
+
+.second {
+    background-color: #2a9d8f;
+    mask-image: linear-gradient(to bottom, #2a9d8f, rgba(0, 0, 0, 0.8));
+    z-index: 0;
+    position: relative;
+    color: black;
+}
+
+.third {
+    background-color: #8AB17D;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8));
+    z-index: 0;
+    position: relative;
+    color: black;
+}
+
+.fourth {
+    background-color: #e9c46a;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8));
+    z-index: 0;
+    position: relative;
+    color: black;
+}
+
+.fifth {
+    background-color: #f4a261;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8));
+    z-index: 0;
+    position: relative;
+    color: black;
+}
+
+.sixth {
+    background-color: #e76f51;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8));
+    z-index: 0;
+    position: relative;
+    color: black;
+}
+
+.registerNow {
+    position: fixed;
+    color: #14213d;
+    border-color: #14213d;
+    width: 300px;
+    height: 70px;
+    border: 6px #14213d solid;
+    font-weight: bolder;
+    top: 50%;
+    left: 50%;
+    margin-top: -35px;
+    margin-left: -150px;
+    text-align: center;
+    box-shadow: 2px 2px 3px #999;
+    border-radius: 20px;
+}
+
+.registerNow:hover {
+    color: white;
+    background-color: #14213d;
+    border-color: #14213d;
+}
+
+.overlay_blur {
+    position: absolute;
+    content: " ";
+    height: 280vh;
+    width: 100%;
+    background-color: rgba(250, 250, 250, 0.2);
+    display: none;
+    top: 0;
+    right: 0;
+    left: 0;
+}

@@ -1,0 +1,13 @@
+.product-image-div {
+    margin-bottom: 60px;
+    /* max-width: min-content; */
+    height: 320px;
+    width: 327px;
+}
+
+.product-image {
+    height: 100%;
+    width: 100%;
+    box-shadow: 5px 5px 10px;
+    object-fit: contain;
+}

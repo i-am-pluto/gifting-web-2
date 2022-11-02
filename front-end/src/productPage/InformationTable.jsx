@@ -2,7 +2,7 @@ import React from "react";
 
 function InformationTable({ infoText1, infoText2, informationTable }) {
   let Table = [];
-
+  console.log(informationTable);
   for (var i in informationTable) {
     Table.push([i, informationTable[i]]);
   }

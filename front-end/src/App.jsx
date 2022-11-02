@@ -66,7 +66,7 @@ function App() {
           <Route exact path="/profile/:profileId">
             <Profile />
           </Route>
-          <Route exact path="/cart/:id">
+          <Route exact path="/cart/:cart_id">
             <Cart />
           </Route>
           <Route exact path="/login">

@@ -12,48 +12,48 @@ function RollingCarousel() {
     {
       productId: 2012030,
       name: "A",
-      // image:
-      //   "https://i1.sndcdn.com/artworks-PZOnPSbRx5SlcIfY-QpdgbA-t500x500.jpg",
+      image:
+        "https://images.ctfassets.net/2d5q1td6cyxq/4kmwcxuqXxUxUVfggQhbiI/650b0af104bfdf9979545eb326786243/Hero-hottoddy_.jpg",
       artistName: "LR",
       price: 200,
     },
     {
       productId: 2012039,
       name: "A",
-      // image:
-      //   "https://qph.fs.quoracdn.net/main-qimg-fca749b950f305ddbf0a4cb2854b6ad1-pjlq",
+      image:
+        "https://images.ctfassets.net/2d5q1td6cyxq/4kmwcxuqXxUxUVfggQhbiI/650b0af104bfdf9979545eb326786243/Hero-hottoddy_.jpg",
       artistName: "RR",
       price: 200,
     },
     {
       productId: 2012041,
       name: "Bb",
-      // image:
-      //   "https://thumb-lvlt.xhcdn.com/a/2nKm7fgwe2hlaWWPk1zisQ/002/255/315/526x298.4.webp",
+      image:
+        "https://images.ctfassets.net/2d5q1td6cyxq/4kmwcxuqXxUxUVfggQhbiI/650b0af104bfdf9979545eb326786243/Hero-hottoddy_.jpg",
       artistName: "Sunny Leone",
       price: 200,
     },
     {
       productId: 2012046,
       name: "A",
-      // image:
-      //   "https://i1.sndcdn.com/artworks-PZOnPSbRx5SlcIfY-QpdgbA-t500x500.jpg",
+      image:
+        "https://images.ctfassets.net/2d5q1td6cyxq/4kmwcxuqXxUxUVfggQhbiI/650b0af104bfdf9979545eb326786243/Hero-hottoddy_.jpg",
       artistName: "LR",
       price: 200,
     },
     {
       productId: 2012047,
       name: "A",
-      // image:
-      //   "https://qph.fs.quoracdn.net/main-qimg-fca749b950f305ddbf0a4cb2854b6ad1-pjlq",
+      image:
+        "https://images.ctfassets.net/2d5q1td6cyxq/4kmwcxuqXxUxUVfggQhbiI/650b0af104bfdf9979545eb326786243/Hero-hottoddy_.jpg",
       artistName: "RR",
       price: 200,
     },
     {
       productId: 2012049,
       name: "A",
-      // image:
-      //   "https://i1.sndcdn.com/artworks-PZOnPSbRx5SlcIfY-QpdgbA-t500x500.jpg",
+      image:
+        "https://images.ctfassets.net/2d5q1td6cyxq/4kmwcxuqXxUxUVfggQhbiI/650b0af104bfdf9979545eb326786243/Hero-hottoddy_.jpg",
       artistName: "LR",
       price: 200,
     },

@@ -3,80 +3,105 @@ import { useEffect } from "react";
 import { useState } from "react";
 import ProductsOfArtist from "../profile/ProductsOfArtist";
 import "./Cart.css";
+import {
+  useHistory,
+  useParams,
+} from "react-router-dom/cjs/react-router-dom.min";
 
 function Cart() {
-  let [products, setProducts] = useState([
-    {
-      productId: 2012030,
-      name: "A",
-      // image:
-      //   "https://e00-marca.uecdn.es/assets/multimedia/imagenes/2021/05/13/16208974262086.jpg",
-      artistName: "LR",
-      price: 200,
-    },
-    {
-      productId: 2012039,
-      name: "A",
-      // image:
-      //   "https://qph.fs.quoracdn.net/main-qimg-fca749b950f305ddbf0a4cb2854b6ad1-pjlq",
-      artistName: "Rs",
-      price: 200,
-    },
-    {
-      productId: 2012041,
-      name: "Bb",
-      // image:
-      //   "https://thumb-lvlt.xhcdn.com/a/2nKm7fgwe2hlaWWPk1zisQ/002/255/315/526x298.4.webp",
-      artistName: "SL",
-      price: 200,
-    },
-    {
-      productId: 2012046,
-      name: "A",
-      // image:
-      //   "https://i1.sndcdn.com/artworks-PZOnPSbRx5SlcIfY-QpdgbA-t500x500.jpg",
-      artistName: "LR",
-      price: 200,
-    },
-    {
-      productId: 2012047,
-      name: "A",
-      // image:
-      //   "https://qph.fs.quoracdn.net/main-qimg-fca749b950f305ddbf0a4cb2854b6ad1-pjlq",
-      artistName: "RR",
-      price: 200,
-    },
-    {
-      productId: 2012049,
-      name: "A",
-      // image:
-      //   "https://i1.sndcdn.com/artworks-PZOnPSbRx5SlcIfY-QpdgbA-t500x500.jpg",
-      artistName: "LR",
-      price: 200,
-    },
-  ]);
+  let [products, setProducts] = useState([]);
   let [price, setPrice] = useState([132.0]);
+  let history = useHistory();
 
-  function deleteProduct(e) {
-    let id = e.target.id;
-    id = id.substring(13);
-    console.log(id);
-    let newProducts = [...products];
-    newProducts.splice(Number(id), 1);
-    setProducts(newProducts);
-  }
+  const { cart_id } = useParams();
+
+  const getProductData = async () => {
+    const response = await fetch(`http://localhost:5000/api/cart/${cart_id}`, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Access-Control-Allow-Credentials": "true",
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+    const data = await response.json();
+    setProducts(data.cart_items);
+  };
+
+  const deleteProduct = async (e) => {
+    e.preventDefault();
+
+    const cart_item_id = products[Number(e.target.id.substring(10))]._id;
+    console.log(cart_item_id);
+    const response = await fetch(
+      `http://localhost:5000/api/cart/${cart_id}/delete`,
+      {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Access-Control-Allow-Credentials": "true",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          cart_item_id,
+          cart_id,
+        }),
+      }
+    );
+    const data = await response.json();
+
+    if (!data.success) {
+      alert("Something Went Wrong");
+      return;
+    }
+
+    await getProductData();
+  };
+
+  let id;
+  const handleCheckout = async (e) => {
+    e.preventDefault();
+
+    const response = await fetch(
+      `http://localhost:5000/api/order/${cart_id}/order-cart`,
+      {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Access-Control-Allow-Credentials": "true",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      }
+    );
+    const data = await response.json();
+    if (!data.success) {
+      alert("Something Went Wrong");
+      return;
+    }
+    id = data.orderid;
+    history.push(`/${id}/confirm`);
+  };
 
   useEffect(() => {
     // find sum of all products
     let sum = 0;
-    for (var product in products) {
-      sum += product.price;
+    console.log(products);
+
+    for (var i = 0; i < products.length; i++) {
+      sum += products[i].varient_price;
     }
     setPrice(sum);
+  }, [products]);
+
+  useEffect(() => {
+    getProductData();
   }, []);
 
   return (
-    <div style={{ marginTop: "120px", marginBottom: "60px" }}>
+    <div style={{ marginTop: "160px", marginBottom: "60px" }}>
       <div class="card">
         <div class="row">
           <div class="col-md-8 cart">
@@ -92,52 +117,67 @@ function Cart() {
                 </div>
               </div>
             </div>
-            {products.map((e, i) => {
+            {products.map((product, i) => {
               return (
-                <div class="row">
-                  <div class="row main align-items-center">
-                    <div class="col-2">
-                      <img class="img-s img-fluid" src={e.image} />
-                    </div>
-                    <div class="col">
-                      <div class="row text-muted">{e.artistName}</div>
-                      <div class="row">
-                        {e.name} - {i}
+                <div>
+                  <div className="row">
+                    <div
+                      className="btn col-md-10"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        history.push("/product/" + product.product_id);
+                      }}
+                    >
+                      <div className="row">
+                        <div className="col-sm-3">
+                          <img
+                            src={product.image}
+                            alt=""
+                            srcset=""
+                            style={{
+                              objectFit: "contain",
+                              maxHeight: "100%",
+                              maxWidth: "100%",
+                              boxShadow: "0px 6px 6px 0px",
+                            }}
+                          />
+                        </div>
+                        <div className="col-sm-4 ml-1 mt-2">
+                          <p>
+                            {" "}
+                            <b style={{ fontSize: "15px" }}>
+                              {product.product_name}
+                            </b>
+                            <br />
+                            <i style={{ fontSize: "13px" }}>
+                              {product.artist_name}
+                            </i>
+                          </p>
+                          <p>
+                            <b>
+                              ₹ &nbsp;
+                              {product.varient_price}
+                            </b>
+                          </p>
+                        </div>
                       </div>
                     </div>
-                    <div class="col">
-                      {" "}
-                      <a href="#" className="text-a">
-                        -
-                      </a>
-                      <a href="#" className="text-a count-prod">
-                        1
-                      </a>
-                      <a href="#" className="text-a">
-                        +
-                      </a>{" "}
-                    </div>
-                    <div class="col">
-                      &euro; {e.price}
-                      <span
-                        class="close btn"
-                        id={`deleteButton-${i}`}
+                    <div className="col-sm-1">
+                      <button
+                        className="ml-2 btn btn-outline-dark d-flex"
+                        id={`cart-item-${i}`}
+                        // style={{ width: "40px" }}
                         onClick={deleteProduct}
                       >
-                        &#10005;
-                      </span>
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                      </button>
                     </div>
                   </div>
-                  <hr className="hr-line" />
+
+                  <hr />
                 </div>
               );
             })}
-            <div class="back-to-shop">
-              <a href="#">
-                <i className="fa fa-arrow-left"></i>
-              </a>
-              <span class="text-muted ml-2">Back</span>
-            </div>
           </div>
           <div class="col-md-4 summary">
             <div>
@@ -150,22 +190,7 @@ function Cart() {
               <div class="col" style={{ paddingLeft: "0px" }}>
                 ITEMS {products.length}
               </div>
-              <div class="col text-right">&euro; {price}</div>
             </div>
-            <form className="form-summary">
-              <p>SHIPPING</p>{" "}
-              <select className="select-cart">
-                <option class="text-muted">
-                  Standard-Delivery- &euro;5.00
-                </option>
-              </select>
-              <p>GIVE CODE</p>{" "}
-              <input
-                className="input-cart"
-                id="code"
-                placeholder="Enter your code"
-              />
-            </form>
             <div
               class="row"
               style={{
@@ -174,9 +199,15 @@ function Cart() {
               }}
             >
               <div class="col">TOTAL PRICE</div>
-              <div class="col text-right">&euro; 137.00</div>
+              <div class="col text-right">₹ {price}</div>
             </div>{" "}
-            <button class="checkout-btn">CHECKOUT</button>
+            <button
+              class="col mt-4 btn-dark"
+              onClick={handleCheckout}
+              style={{ height: "40px" }}
+            >
+              CHECKOUT
+            </button>
           </div>
         </div>
       </div>

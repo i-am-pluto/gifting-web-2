@@ -1,9 +1,10 @@
 import React from "react";
+import "../productPage/ArtistCard.css";
 
 function ArtistCardEdit({ Artist }) {
   const pfp_image = Artist.pfp_url;
   const cover_image = Artist.cover_url;
-  const artist_name = Artist.artist_name;
+  const artist_name = Artist.name;
   let artist_followers = Artist.follower_count;
   const artist_bio = Artist.bio;
   let c = 0;
@@ -42,7 +43,12 @@ function ArtistCardEdit({ Artist }) {
                   </a>
                 </div>
                 <a href={"/profile/" + Artist.artist_id}>
-                  <h3 className="m-b-0 btn link-profile">{artist_name}</h3>
+                  <h3
+                    className="m-b-0 btn link-profile"
+                    style={{ color: "black" }}
+                  >
+                    {artist_name}
+                  </h3>
                 </a>
                 <p>{artist_bio}</p>{" "}
                 <a

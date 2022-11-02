@@ -1,6 +1,9 @@
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import ProductsOfArtist from "./ProductsOfArtist";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+
 import "./Profile.css";
 function Profile() {
   let [buttonText, setButtonText] = useState("Followed");
@@ -11,21 +14,22 @@ function Profile() {
     if (buttonText === "Unfollow") setButtonText("Followed");
   }
 
-  let profile_user = {
+  let [profile_user, setProfile_user] = useState({
     name: "Lana Rhodes",
     bio: "    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae quibusdam illum perspiciatis nemo, eius dignissimos adipisci animi quos quisquam esse? Suscipit voluptas dolores corrupti blanditiis maxime ratione nemo alias consequuntur.",
-    followers: 321241231,
+    follower_count: 321241231,
     socials: {
       facebook: "https://www.fb.com",
       instagram: "https://www.ig.com",
       linkedin: "https://www.linkedin.com",
     },
-    // cover:
-    //   "https://hdwallsource.com/img/2021/8/lana-rhoades-sexy-wallpaper-73804-76479-hd-wallpapers.jpg",
-    // pfp: "https://i.pinimg.com/originals/63/a8/45/63a845bfa536ec51341e74691b4d5796.png",
-  };
+    cover_url:
+      "https://hdwallsource.com/img/2021/8/lana-rhoades-sexy-wallpaper-73804-76479-hd-wallpapers.jpg",
+    pfp_url:
+      "https://i.pinimg.com/originals/63/a8/45/63a845bfa536ec51341e74691b4d5796.png",
+  });
 
-  let ProductData = [
+  let [ProductData, setProductData] = useState([
     {
       productId: 2012030,
       name: "A",
@@ -90,9 +94,40 @@ function Profile() {
       artistName: "LR",
       price: 200,
     },
-  ];
+  ]);
+  let followers = profile_user.follower_count;
 
-  let followers = profile_user.followers;
+  console.log(profile_user);
+  const { profileId } = useParams();
+
+  const getArtistCard = async () => {
+    // should have basic artist information like name followers urls
+    // status if the user is followed or not
+
+    const response = await fetch(
+      `http://localhost:5000/api/artist/${profileId}/profile`,
+      {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Access-Control-Allow-Credentials": "true",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      }
+    );
+    const data = await response.json();
+    if (data.success === false) {
+      return;
+    }
+    console.log(data);
+    setProfile_user(data);
+  };
+
+  useEffect(() => {
+    getArtistCard();
+  }, []);
+
   let c = 0;
   while (parseInt(followers / 1000) > 0) {
     followers /= 1000;
@@ -100,6 +135,8 @@ function Profile() {
   }
   if (c > 1) {
     followers = String(followers).substring(0, 5) + "M";
+  } else if (followers < 1000) {
+    followers = String(followers);
   } else {
     followers = String(followers).substring(0, 5) + "K";
   }
@@ -114,7 +151,7 @@ function Profile() {
     <div style={{ marginTop: "60px" }}>
       <div className="cover-image">
         <img
-          // src="https://hdwallsource.com/img/2021/8/lana-rhoades-sexy-wallpaper-73804-76479-hd-wallpapers.jpg"
+          src={profile_user.cover_url}
           alt=""
           srcset=""
           className="cover-image-pic"
@@ -122,7 +159,7 @@ function Profile() {
       </div>
       <div className="profile-pic">
         <img
-          // src="https://i.pinimg.com/originals/63/a8/45/63a845bfa536ec51341e74691b4d5796.png"
+          src={profile_user.pfp_url}
           alt=""
           srcset=""
           className="profile-pic-image"
@@ -131,7 +168,7 @@ function Profile() {
       <div className="container">
         <center>
           <h2>
-            <b>{profile_user.name}</b>
+            <b>{profile_user.artist_name}</b>
           </h2>
           <button
             className="mb-3 btn btn-outline-dark"

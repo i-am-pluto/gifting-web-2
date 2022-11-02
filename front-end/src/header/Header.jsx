@@ -8,11 +8,38 @@ import SearchBar from "./SearchBar";
 import { faShoppingBasket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useEffect } from "react";
 function Header({ user }) {
   let name = "Sign in";
   if (user.name) {
     name = user.name.f_name;
   }
+  const [cart, setCart] = useState({
+    link: "/login",
+    count: "",
+  });
+  useEffect(() => {
+    const fetchCart = async () => {
+      const response = await fetch("http://localhost:5000/api/cart/", {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Access-Control-Allow-Credentials": "true",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      const data = await response.json();
+      if (data._id) {
+        setCart({
+          link: "/cart/" + data._id,
+          count: data.cart_items.length,
+        });
+      }
+      console.log(data);
+    };
+    fetchCart();
+  }, []);
   // console.log(user);
   let history = useHistory();
   let user_link = "login";
@@ -64,15 +91,22 @@ function Header({ user }) {
         </a>
         {/* // cart */}
         <div className="header__optionBasket header_ob">
-          <span className="header__optionLineOne">
-            <FontAwesomeIcon icon={faShoppingBasket} />
-          </span>
-          <span
-            className="header__optionLineTwo header__basketCount"
-            id="shopping-cart-count-main"
+          <a
+            href={cart.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "white" }}
           >
-            0
-          </span>
+            <span className="header__optionLineOne">
+              <FontAwesomeIcon icon={faShoppingBasket} />
+            </span>
+            <span
+              className="header__optionLineTwo header__basketCount"
+              id="shopping-cart-count-main"
+            >
+              {cart.count}
+            </span>
+          </a>
         </div>
       </div>
     </div>

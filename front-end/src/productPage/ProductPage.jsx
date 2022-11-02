@@ -14,6 +14,8 @@ function ProductPage() {
   let isArtistToProduct = false;
   const { productId } = useParams();
 
+  const [varients, setVarients] = useState([]);
+
   useEffect(() => {
     document.body.style = "background: #f1faee;";
     const getProduct = async () => {
@@ -57,7 +59,27 @@ function ProductPage() {
       }
       setArtist(data);
     };
-    if (product) getArtistCard();
+    const getVarients = async () => {
+      const response = await fetch(
+        `http://localhost:5000/api/product/${productId}/varients`,
+        {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            "Access-Control-Allow-Credentials": "true",
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+
+      const data = await response.json();
+      setVarients(data);
+    };
+    if (product) {
+      getArtistCard();
+      getVarients();
+    }
   }, [product]);
 
   const isArtistCard = () => {
@@ -73,7 +95,7 @@ function ProductPage() {
   const isProductCard = () => {
     if (product) {
       console.log(product.main_image_url);
-      return <ProductCard product={product} />;
+      return <ProductCard product={product} varients={varients} />;
     } else return <></>;
   };
 
@@ -104,11 +126,12 @@ function ProductPage() {
 
   const isInformationTable = () => {
     if (product) {
+      console.log(product.informationTable);
       return (
         <InformationTable
           infoText1={product.info1}
           infoText2={product.info2}
-          informationTable={product.InformationTable}
+          informationTable={product.informationTable}
         />
       );
     } else return <></>;

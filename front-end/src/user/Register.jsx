@@ -39,6 +39,7 @@ function Register() {
 
     respone.json().then((data) => {
       if (data.success && artist) {
+        console.log(data);
         window.location.replace(data.url);
       } else if (data.success) {
         navigate.push("/login");

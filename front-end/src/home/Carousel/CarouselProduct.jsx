@@ -4,10 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./assets/css/product.css";
 
 function CarouselProduct({ product }) {
-  const image = product.image;
-  const name = product.name;
-  const artistName = product.artistName;
-  const productId = product.productId;
+  console.log(product);
+  const image = product.main_image_url;
+  const name = product.product_name;
+  let artistName = "";
+  if (product.artist) artistName = product.artist.artist_name;
+  const productId = product._id;
 
   return (
     <div className="item">

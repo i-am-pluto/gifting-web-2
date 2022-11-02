@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import "./ProductCard.css";
-function ProductCard({ product }) {
+import OwlCarousel from "react-owl-carousel";
+import ProductCarouselImage from "./ProductCarouselImage";
+
+function ProductCard({ product, varients }) {
   const productInfo = product.description;
   const productTitle = product.product_name;
   const image = product.main_image_url;
@@ -9,12 +12,14 @@ function ProductCard({ product }) {
   const productImage = product.main_image_url;
   const productPrice = 0;
 
-  const varients = product.varients;
+  const product_images = [productImage, ...product.gift_image_urls];
 
   const [currPrice, setCurrPrice] = useState(0);
 
   useEffect(() => {
-    setCurrPrice(varients[0].varient_price);
+    if (varients && varients.length && varients[0]) {
+      setCurrPrice(varients[0].varient_price);
+    }
   }, [varients]);
 
   let history = useHistory();
@@ -67,14 +72,88 @@ function ProductCard({ product }) {
     }
   };
 
+  const handleAddToCart = async (e) => {
+    e.preventDefault();
+
+    const textArea = document.getElementById("custom-message-textArea");
+
+    let message = "";
+    if (textArea.attributes.disabled) {
+      message = textArea.value;
+    }
+
+    if (!isCustomization() && !message.length) {
+      alert("Must Attach The Customization");
+      textArea.scrollIntoView();
+    }
+
+    const varientSelect = document.getElementById("varient-select-product");
+    const body = {
+      productid: product._id,
+      customization: message,
+      varient: varients[Number(varientSelect.value)],
+    };
+
+    const response = await fetch(`http://localhost:5000/api/cart/add`, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Access-Control-Allow-Credentials": "true",
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(body),
+    });
+
+    const data = await response.json();
+
+    if (data._id) {
+      history.push(`/cart/${data._id}`);
+    } else {
+      alert("Something Went Wrong");
+    }
+  };
+
   return (
-    <div style={{ marginTop: "120px" }}>
-      <div class="wrapper">
-        <div class="product-img">
-          <img src={productImage} height="100%" width="100%" />
+    <div style={{ marginTop: "180px" }} className="container">
+      <div className="row gx-4 gx-lg-5 align-items-center">
+        <div className="col-md-6">
+          {/* <img src={productImage} height="100%" width="100%" /> */}
+
+          <div>
+            <section className="ftco-section">
+              <div className="">
+                <div className="container-xl">
+                  <div className="row">
+                    <div className="col-md-12 ">
+                      <OwlCarousel
+                        classNameName="owl-theme"
+                        nav={true}
+                        autoplay={false}
+                        margin={20}
+                        animateOut="fadeOut"
+                        animateIn="fadeIn"
+                        dots={true}
+                        autoplayHoverPause={true}
+                        items={1}
+                        navText={[
+                          "<span class='ion-ios-arrow-back'></span>",
+                          "<span class='ion-ios-arrow-forward'></span>",
+                        ]}
+                      >
+                        {product_images.map((el, i) => {
+                          return <ProductCarouselImage product={el} />;
+                        })}
+                      </OwlCarousel>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
         </div>
-        <div class="product-info">
-          <div class="product-text">
+        <div class="col-md-6">
+          <div>
             <h1>{productTitle}</h1>
             <h2>{productSubtitle}</h2>
             <p className="color-dark">{productInfo}</p>
@@ -90,37 +169,38 @@ function ProductCard({ product }) {
               }}
             >
               {varients.map((el, i) => {
-                return <option value={i}>{el.varient_name}</option>;
+                if (el) return <option value={i}>{el.varient_name}</option>;
               })}
             </select>
           </div>
           <div className="row">
             {" "}
             <div className="col">
-              <div class="product-price-btn">
-                <p className="btn">
-                  ₹<span>{currPrice}</span>
+              <div class="">
+                <p className="btn" style={{ fontSize: "30px" }}>
+                  <b>
+                    {" "}
+                    ₹<span>{currPrice}</span>
+                  </b>{" "}
                 </p>
                 <br />
               </div>
               <div className="col">
-                <div
-                  className="d-flex justify-content-end"
-                  style={{ marginTop: "-10px" }}
-                >
+                <div className="d-flex" style={{ marginTop: "-10px" }}>
                   <button
                     type="button"
-                    className="btn btn-outline-success button-buy"
+                    className="btn btn-outline-success flex-shrink-0 mr-3"
                     onClick={handleBuyNow}
                   >
-                    buy now
+                    Buy Now <i class="fa-solid fas fa-money-check"></i>
                   </button>
 
                   <button
+                    className="btn btn-outline-dark flex-shrink-0"
                     type="button"
-                    className="btn btn-outline-warning button-add"
+                    onClick={handleAddToCart}
                   >
-                    add to cart
+                    Add to cart <i class="fa-solid fa-cart-shopping"></i>
                   </button>
                 </div>
               </div>

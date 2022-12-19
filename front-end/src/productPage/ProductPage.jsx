@@ -10,7 +10,7 @@ import "./ProductPage.css";
 function ProductPage() {
   let [product, setProduct] = useState();
   let [artist, setArtist] = useState();
-  let [reviews, setReviews] = useState();
+  let [reviews, setReviews] = useState([]);
   let isArtistToProduct = false;
   const { productId } = useParams();
 
@@ -173,7 +173,7 @@ function ProductPage() {
           Customer <b>Review</b>
         </h2>{" "}
       </center>
-      {/* <CustomerReviews reviews={reviews} /> */}
+      <CustomerReviews product_id={productId} />
     </div>
   );
 }

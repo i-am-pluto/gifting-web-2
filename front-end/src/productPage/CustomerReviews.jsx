@@ -1,37 +1,126 @@
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import "./CustomerReview.css";
-function CustomerReviews({ Reviews }) {
-  let [comments, setComments] = useState(Reviews);
+function CustomerReviews({ product_id }) {
+  let [comments, setComments] = useState([]);
+  let [loadMoreCounter, setLoadMoreCounter] = useState(0);
+  let [disable, setDisable] = useState("");
+  const getProductReviews = async () => {
+    console.log(product_id);
+    const response = await fetch(
+      `http://localhost:5000/api/reviews/${product_id}/${loadMoreCounter}`,
+      {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Access-Control-Allow-Credentials": "true",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+    if (!data.success) {
+      alert("Couldnt load reviews");
 
-  function addComment(e) {
-    if (e.keyCode === 13) {
-      let newState = [...comments];
-      newState.unshift({
-        author: "Daddy",
-        upvotes: 20,
-        Review: e.target.value,
-        // pfp_image:
-        //   "https://pr0.nicelocal.in/6qdaxqt5l9uP8UCWsYwkyg/220x440,q85/4px-BW84_n0QJGVPszge3NRBsKw-2VcOifrJIjPYFYkOtaCZxxXQ2auZQCd9fMUEh5Lz3pfPAmSVLA-JtmXcbxXM8bMlH9xJb6NgdQHuDCXtnfhdR-jzLg",
-      });
-      e.target.value = "";
-      setComments(newState);
+      return;
     }
-  }
-  function upvote(e) {
-    let but_id = e.target.id;
-    let count_id = "review-upvote-" + e.target.id.substring(18);
+    console.log(data.reviews);
+    setComments(data.reviews);
 
+    if (data.reviews.length < 5) {
+      setDisable({ disabled: "..." });
+    } else {
+      setDisable("");
+    }
+  };
+  useEffect(() => {
+    getProductReviews();
+  }, [loadMoreCounter]);
+
+  const addComment = async (e) => {
+    if (e.keyCode === 13) {
+      const comment = e.target.value;
+
+      const response = await fetch(
+        `http://localhost:5000/api/reviews/${product_id}/add`,
+        {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Access-Control-Allow-Credentials": "true",
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ comment }),
+        }
+      );
+      const data = await response.json();
+
+      if (!data.success) {
+        alert("Failed To add the review");
+        return;
+      }
+
+      getProductReviews();
+    }
+  };
+  const upvote = async (e) => {
+    let but_id = e.target.id;
+    let count_id = "review-upvote-" + e.target.id.substring(18, 19);
+    let review_id = e.target.id.substring(20);
     if (document.getElementById(but_id).innerText === "upvote?") {
+      // send upvote request
+      const response = await fetch(
+        `http://localhost:5000/api/reviews/${review_id}/upvote`,
+        {
+          method: "PUT",
+          mode: "cors",
+          headers: {
+            "Access-Control-Allow-Credentials": "true",
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+
+      const data = await response.json();
+      if (!data.success) {
+        alert("failed");
+        return;
+      }
+
       document.getElementById(but_id).innerText = "downvote?";
       document.getElementById(count_id).innerText =
         Number(document.getElementById(count_id).innerText) + 1;
     } else {
+      // send dowvote request
+      const response = await fetch(
+        `http://localhost:5000/api/reviews/${review_id}/downvote`,
+        {
+          method: "PUT",
+          mode: "cors",
+          headers: {
+            "Access-Control-Allow-Credentials": "true",
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+
+      const data = await response.json();
+      if (!data.success) {
+        alert("failed");
+        return;
+      }
+
       document.getElementById(but_id).innerText = "upvote?";
       document.getElementById(count_id).innerText =
         Number(document.getElementById(count_id).innerText) - 1;
     }
-  }
+  };
 
   return (
     <div>
@@ -49,19 +138,25 @@ function CustomerReviews({ Reviews }) {
           <div class="second py-2 px-2">
             {" "}
             {comments.map((review, i) => {
+              let buttonText = "upvote?";
+              if (review.isUpvoted) buttonText = "downvote?";
+
               return (
                 <div class="comment-box py-2 px-2">
                   {" "}
-                  <span class="text1">{review.Review}</span>
+                  <span class="text1">{review.comment}</span>
                   <div class="d-flex justify-content-between py-1 pt-2">
                     <div>
-                      <img src={review.pfp_image} width="18" />
+                      <img src={review.pfp_image} width="18" alt="alt" />
                       <span class="text2">{review.author}</span>
                     </div>
                     <div>
                       <button className="btn" onClick={upvote}>
-                        <span class="text3" id={"review-upvote-btn-" + i}>
-                          upvote?
+                        <span
+                          class="text3"
+                          id={"review-upvote-btn-" + i + "-" + review.id}
+                        >
+                          {buttonText}
                         </span>
                       </button>
                       <span class="thumbup">
@@ -76,6 +171,17 @@ function CustomerReviews({ Reviews }) {
               );
             })}
           </div>
+        </div>
+        <div className="container">
+          <button
+            className="col btn btn-warning mb-5"
+            onClick={() => {
+              setLoadMoreCounter(loadMoreCounter + 1);
+            }}
+            {...disable}
+          >
+            Load More
+          </button>
         </div>
       </div>
     </div>

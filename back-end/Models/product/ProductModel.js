@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const ReviewSchema = require("./ReviewSchema");
 const Schema = mongoose.Schema;
 const productSchema = new Schema({
   product_name: {
@@ -18,18 +17,22 @@ const productSchema = new Schema({
   main_image_url: String,
   gift_image_urls: [String],
 
+  artist_id: {
+    type: mongoose.mongo.ObjectId,
+    unique: false,
+    ref: "Artist",
+  },
+
   artist: {
     artist_name: String,
     artist_followers: Number,
     artist_id: {
       type: mongoose.mongo.ObjectId,
-      required: true,
       unique: false,
       ref: "Artist",
     },
   },
 
-  stripe_product_id: String,
   varients: [
     {
       varient_id: {
@@ -73,12 +76,30 @@ const productSchema = new Schema({
     type: Number,
     default: 0,
   },
-  Reviews: [ReviewSchema],
+  reviews: [
+    {
+      type: mongoose.mongo.ObjectId,
+      ref: "Reviews",
+    },
+  ],
   created_on: {
     type: Date,
     default: Date.now,
   },
 });
+
+productSchema.index(
+  {
+    product_name: "text",
+    description: "text",
+    categories: "text",
+  },
+  {
+    weights: {
+      product_name: 50,
+    },
+  }
+);
 
 const Products = mongoose.model("Products", productSchema);
 module.exports = Products;

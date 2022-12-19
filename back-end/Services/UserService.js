@@ -2,10 +2,10 @@ const crypto = require("crypto");
 const mongoose = require("mongoose");
 const userRepository = require("../Repositories/UserRepository");
 const customerService = require("./../Services/CustomerService");
-const artistService = require("../Services/ArtistService");
 const { uploadpfp, uploadCover } = require("./CloudinaryService");
 const { getArtistByID } = require("../Repositories/ArtistRepository");
 const { addACustomer } = require("../Repositories/CustomerRepository");
+const { addAnArtist } = require("./ArtistService");
 
 const genPassword = (password) => {
   var salt = crypto.randomBytes(32).toString("hex");
@@ -33,19 +33,20 @@ const getUserById = async (user_id) => {
 };
 const markUserArtist = async (user_id) => {
   const user = await userRepository.getUserById(user_id);
+  console.log(addAnArtist);
+  const artist = await addAnArtist(user);
   user.artist = true;
-  const savedUser = await user.save();
-  const artist = await artistService.addAnArtist(user);
-
-  return savedUser;
+  await user.save();
+  return user;
 };
 const markUserCustomer = async (user_id) => {
   const user = await userRepository.getUserById(user_id);
-  user.customer = true;
   const savedUser = await user.save();
   console.log(addACustomer);
   const customer = await addACustomer(user.id);
-  return savedUser;
+  user.customer = true;
+  await user.save();
+  return user;
 };
 
 const setProfilePic = async (image, user_id) => {

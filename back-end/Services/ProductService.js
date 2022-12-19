@@ -128,6 +128,7 @@ const addAProduct = async (jsonObject, user_id) => {
   }
 };
 
+
 // add varients
 const addVarients = async (varients, product_id, artist_id) => {
   const product = await productRepository.getProductById(product_id);
@@ -209,44 +210,7 @@ const deleteAllImages = async (user_id, product_id) => {
 // if new image i.e. replacing no image then push
 
 //add review
-const addReview = async (user_id, product_id, comment) => {
-  if (ReviewSchema.findOne({ user_id: user_id })) {
-    return null;
-  }
 
-  const review = new ReviewSchema({
-    rating: comment.rating,
-    comment: comment.comment,
-    user_id: user_id,
-    upvotes: 0,
-  });
-  const savedReview = await reviewRepository.addAReview();
-  return savedReview;
-};
-const upvoteReview = async (user_id, review_id) => {
-  const review = await reviewRepository.getReview(review_id);
-  review.upvoted_by.array.forEach((element) => {
-    if (element === user_id) {
-      return null;
-    }
-  });
-  review.upvotes++;
-  review.upvoted_by.push(user_id);
-  const savedReview = await review.save();
-  return savedReview;
-};
-const downvoteReview = async (user_id, review_id) => {
-  const review = await reviewRepository.getReview(review_id);
-  review.upvoted_by.array.forEach(async (element, i) => {
-    if (element === user_id) {
-      review.upvotes--;
-      review.upvoted_by.splice(i, 1);
-      const savedReview = await review.save();
-      return savedReview;
-    }
-  });
-  return null;
-};
 // delete a product
 const deleteAProduct = async (product_id) => {
   await productRepository.deleteAProduct(product_id);
@@ -277,6 +241,11 @@ const updateAProduct = async (jsonObject) => {
   const updatedProduct = await productRepository.updateAProduct(product);
   return updatedProduct;
 };
+
+const searchQuery = async (query, pge_no) => {
+  
+};
+
 // build similar products
 const getSimilarProducts = async (q, pge_no) => {};
 // build search results
@@ -294,8 +263,6 @@ module.exports = {
   updateAProduct,
   getSimilarProducts,
   addAProduct,
-  upvoteReview,
-  downvoteReview,
   addVarients,
   addMainImage,
   addAGiftImage,

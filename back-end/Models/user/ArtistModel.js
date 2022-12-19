@@ -56,5 +56,16 @@ const artistSchema = new Schema({
   ],
 });
 
+artistSchema.index(
+  {
+    artist_name: "text",
+  },
+  {
+    weights: {
+      artist_name: 25,
+    },
+  }
+);
+
 const Artist = mongoose.model("Artist", artistSchema);
 module.exports = Artist;

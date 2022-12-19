@@ -59,7 +59,7 @@ app.use(
     resave: true,
     saveUninitialized: true,
     store: MongoStore.create({
-      mongoUrl: "mongodb://127.0.0.1/mydb",
+      mongoUrl: `mongodb+srv://${process.env.DB_HOST}:${process.env.DB_PASS}@cluster0.ojndtwk.mongodb.net/?retryWrites=true&w=majority`,
     }),
     cookie: {
       maxAge: 1000 * 60 * 60 * 24, // Equals 1 day (1 day * 24 hr/1 day * 60 min/1 hr * 60 sec/1 min * 1000 ms / 1 sec)

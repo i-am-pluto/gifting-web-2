@@ -54,25 +54,23 @@ function Header({ user }) {
   return (
     <div className="navbar navbar-dark bg-dark container-fluid  fixed-top">
       {/* // header logo */}
+      <div className="flexbox_item"></div>
+
       <div className="header__option header_ob">
         <a className="brand" style={{ textAlign: "center" }} href="/">
           World On Pencil
         </a>
       </div>
-      <div className="flexbox">
-        <div className="flexbox_item"></div>
-      </div>
+      <div className="flexbox_item"></div>
+
       <SearchBar />
-      <div className="flexbox">
-        <div className="flexbox_item"></div>
-      </div>
+      <div
+        className="bg-light"
+        id="search-box-result"
+        style={{ height: "20px", backgroundColor: "white" }}
+      ></div>
+
       <div className="header__nav">
-        <a href={`/${purchaseHistory}`}>
-          <div className="header__option header_ob">
-            <span className="header__optionLineOne">Purchase</span>
-            <span className="header__optionLineTwo">History</span>
-          </div>
-        </a>
         <a href={`/${wishlist}`}>
           <div className="header__option header_ob">
             <span className="header__optionLineOne">Your</span>
@@ -90,7 +88,7 @@ function Header({ user }) {
           </div>
         </a>
         {/* // cart */}
-        <div className="header__optionBasket header_ob">
+        <div className="header__optionBasket header_ob ml-2">
           <a
             href={cart.link}
             target="_blank"
@@ -109,6 +107,10 @@ function Header({ user }) {
           </a>
         </div>
       </div>
+      <div
+        className="flexbox_item"
+
+      ></div>
     </div>
   );
 }

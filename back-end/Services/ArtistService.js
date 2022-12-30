@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 const Artist = require("../Models/user/ArtistModel");
 const { getArtistById } = require("../Repositories/ArtistRepository");
+const { getUserById } = require("../Repositories/UserRepository");
 const { uploadCover } = require("./CloudinaryService");
 const {
   createAccount,
   createAccountLink,
   retrieveAccount,
 } = require("./StripeAccnt");
-const { getUserById } = require("./UserService");
 
 const addAnArtist = async (user) => {
   let stripe_account = await createAccount(user.id);

@@ -42,7 +42,7 @@ const getVarients = async (product_id) => {
   const varients = [];
   const v = product.varients;
   for (let i = 0; i < v.length; i++) {
-    var varient = await getVarientById(v[i]);
+    var varient = await getVarientById(v[i].varient_id);
     console.log(varient);
     varients.push(varient);
   }
@@ -128,9 +128,9 @@ const addAProduct = async (jsonObject, user_id) => {
   }
 };
 
-
 // add varients
 const addVarients = async (varients, product_id, artist_id) => {
+  console.log(varients, product_id, artist_id);
   const product = await productRepository.getProductById(product_id);
   const artist = await getArtistById(artist_id);
   let saveVarients = [];
@@ -145,15 +145,16 @@ const addVarients = async (varients, product_id, artist_id) => {
       varient_price,
       varient_stocks,
     });
-    await varient.save();
-
-    saveVarients.push(varient.id);
+    const savedVarient = await varient.save();
+    saveVarients.push({
+      varient_id: savedVarient._id,
+      varient_price: savedVarient.varient_price,
+    });
   }
-
   product.varients = saveVarients;
-
+  console.log("Product varients - ", product.varients);
   const savedProduct = await product.save();
-
+  console.log("SAVED PRODUCT VARINETS - ", savedProduct.varients);
   return savedProduct;
 };
 
@@ -242,9 +243,7 @@ const updateAProduct = async (jsonObject) => {
   return updatedProduct;
 };
 
-const searchQuery = async (query, pge_no) => {
-  
-};
+const searchQuery = async (query, pge_no) => {};
 
 // build similar products
 const getSimilarProducts = async (q, pge_no) => {};

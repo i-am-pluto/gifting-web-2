@@ -5,6 +5,7 @@ const searchLookupSchema = new Schema({
   p_name: String,
   p_id: mongoose.mongo.ObjectId,
   artist_name: String,
+  artist_id: mongoose.mongo.ObjectId,
   categories: [String],
   price: Number,
 });

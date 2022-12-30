@@ -15,9 +15,12 @@ const { getOrderByPaymentIntent } = require("./Services/OrderService");
 const { removeProductFromCart } = require("./Repositories/CartRepository");
 const cartService = require("./Services/CartService");
 const artistService = require("./Services/ArtistService");
+const { indexAllProducts } = require("./Services/SearchEngineService");
+const {
+  generateAllRecommendations,
+} = require("./Repositories/SearchRecommendationRepository");
 
 require("dotenv").config();
-
 const app = express();
 
 connectDB();
@@ -74,7 +77,6 @@ app.use(cookieParser("secret temp"));
 
 // Need to require the entire Passport config module so app.js knows about it
 require("./config/passport");
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -145,7 +147,7 @@ app.post(
     response.send();
   }
 );
-
+generateAllRecommendations();
 app.use(routes);
 
 const port = 5000;

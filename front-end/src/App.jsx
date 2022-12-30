@@ -29,6 +29,7 @@ import AddAProduct from "./Seller/AddAProduct";
 import Role from "./user/Role";
 import { Varients } from "./Seller/Varients";
 import ConfirmOrder from "./orders/ConfirmOrder";
+import SearchResult from "./searchResult/SearchResult";
 
 function App() {
   let [user, setUser] = useState({});
@@ -89,6 +90,10 @@ function App() {
           </Route>
           <Route exact path="/:id/varients">
             <Varients />
+          </Route>
+
+          <Route exact path="/search/:pgeno">
+            <SearchResult />
           </Route>
 
           <Route exact path="/:id/confirm">

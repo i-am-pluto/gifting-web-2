@@ -29,12 +29,9 @@ const EditGeneral = ({ profile_user }) => {
     <div>
       <div class="container bootstrap snippets bootdey">
         <h1 class="text-primary">General Information</h1>
-        <p className="alert">
-          *The Information below can be updated at the time of order
-        </p>
         <hr />
         <div class="row">
-          <div class="col">
+          {/* <div class="col">
             <h3>Payment Information</h3>
             <form class="form-horizontal" onSubmit={handleSubmit}>
               <div class="form-group">
@@ -53,7 +50,7 @@ const EditGeneral = ({ profile_user }) => {
                 />
               </a>
             </form>
-          </div>
+          </div> */}
 
           <div class="col personal-info">
             <h3>Address</h3>

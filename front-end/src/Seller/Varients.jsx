@@ -38,7 +38,7 @@ export const Varients = () => {
     );
     const data = await response.json();
     if (data.success) {
-      history.push(`/product/${id}`);
+      history.push(`/${id}/categories`);
     } else alert("Something Went Wrong.");
   };
   return (

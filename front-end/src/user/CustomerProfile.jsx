@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import "./ArtistProfile.css";
 import EditGeneral from "./EditGeneral";
 import { EditProfile } from "./EditProfile";
+import CustomerOrders from "./orders/CustomerOrder";
 const CustomerProfile = ({ user }) => {
   const [customer, setCustomer] = useState();
   const { id } = useParams();
@@ -117,7 +118,7 @@ const CustomerProfile = ({ user }) => {
                   {/* edit address */}
                 </div>
                 <div className={`tab-pane fade px-4 py-5 ${active_show[2]}`}>
-                  banana
+                  <CustomerOrders />
                   {/* a list of all orders. containst order id and only the name of the product. add a link to '/order/:orderID' to the order id which redirects to the order page */}
                 </div>
               </div>

@@ -38,22 +38,17 @@ const artistSchema = new Schema({
     youtube: String,
   },
 
-  // payment details
-  stripe_account_id: {
-    type: String,
-    required: true,
-  },
-  stripe_account_enabled: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
   followers: [
     {
       type: mongoose.mongo.ObjectId,
       ref: "User",
     },
   ],
+
+  sold_no: {
+    type: Number,
+    default: 0,
+  },
 });
 
 artistSchema.index(

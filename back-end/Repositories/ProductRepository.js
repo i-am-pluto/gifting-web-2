@@ -8,10 +8,7 @@ const getProductById = async (product_id) => {
   const product = await Products.findById(product_id);
   return product;
 };
-const updateAProduct = async (product) => {
-  const savedProduct = await product.save();
-  return savedProduct;
-};
+
 // find all products
 const findAllProducts = async () => {
   const allProducts = await Products.find();
@@ -40,7 +37,7 @@ const getProductByPopularity = async (pge_no) => {
 // by newly added
 const getProductsByNewLyAdded = async (pge_no) => {
   const all = await Products.find()
-    .sort({ created_on: 1 })
+    .sort({ created_on: -1 })
     .limit(50)
     .skip(pge_no * 50);
   return all;
@@ -71,18 +68,19 @@ const getProductsBySold = async (pge_no) => {
 // todos
 // add a verification Method So That Only Sellers are able to do this
 const addAProduct = async (product) => {
-  try {
-    const savedProduct = await product.save();
-    return savedProduct;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
+  const p = new Products({ ...product });
+  const savedProduct = await p.save();
+  return savedProduct;
 };
 
 // delete a product
 const deleteAProduct = async (product_id) => {
   await Products.findByIdAndDelete(product_id);
+};
+
+// update product
+const updateProduct = async (updatedProduct) => {
+  return await updatedProduct.save();
 };
 
 module.exports = {
@@ -94,7 +92,6 @@ module.exports = {
   getProductsBySold,
   addAProduct,
   findAllProducts,
-  updateAProduct,
   deleteAProduct,
-  updateAProduct,
+  updateProduct,
 };

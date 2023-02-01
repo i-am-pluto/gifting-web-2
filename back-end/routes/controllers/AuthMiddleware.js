@@ -65,8 +65,10 @@ const isArtistToProduct = async (req, res, next) => {
   const artist = await getArtistById(artist_id);
 
   const product_id = mongoose.mongo.ObjectId(req.params.id);
+  const product = await getProductById(product_id);
   let flag = false;
-  if (artist.products.indexOf(product_id) !== -1) {
+
+  if (artist.user_id.equals(product.artist.artist_id)) {
     flag = true;
   }
   if (req.isAuthenticated() && req.user.artist && flag) {
@@ -130,16 +132,21 @@ const isUserAuthorOfRequest = (req, res, next) => {
 };
 
 const canUserViewOrder = async (req, res, next) => {
-  const orderId = mongoose.mongo.ObjectId(req.params.orderid);
-  const order = await getOrderById(orderId);
-  const user_id = mongoose.mongo.ObjectId(req.user.id);
-  if (order.c_id.equals(user_id) || order.a_id.equals(user_id)) {
-    next();
-  } else {
-    res.status(401).json({
-      message: "The user is unautherised to make changes to this product",
-      success: false,
-    });
+  try {
+    const orderId = mongoose.mongo.ObjectId(req.params.orderid);
+    const order = await getOrderById(orderId, req.user.id);
+    const user_id = mongoose.mongo.ObjectId(req.user.id);
+    if (order.c_id.equals(user_id) || order.a_id.equals(user_id)) {
+      next();
+    } else {
+      res.status(401).json({
+        message: "The user is unautherised to make changes to this product",
+        success: false,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({ message: error, success: false });
   }
 };
 

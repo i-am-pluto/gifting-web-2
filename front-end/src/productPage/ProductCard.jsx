@@ -8,7 +8,7 @@ function ProductCard({ product, varients }) {
   const productInfo = product.description;
   const productTitle = product.product_name;
   const image = product.main_image_url;
-  const productSubtitle = product.artist_name;
+  const productSubtitle = product.artist.artist_name;
   const productImage = product.main_image_url;
   const productPrice = 0;
 
@@ -23,7 +23,6 @@ function ProductCard({ product, varients }) {
   }, [varients]);
 
   let history = useHistory();
-
   const isCustomization = () => {
     if (product.customization_optional) {
       return true;
@@ -85,6 +84,7 @@ function ProductCard({ product, varients }) {
     if (!isCustomization() && !message.length) {
       alert("Must Attach The Customization");
       textArea.scrollIntoView();
+      return;
     }
 
     const varientSelect = document.getElementById("varient-select-product");
@@ -115,27 +115,26 @@ function ProductCard({ product, varients }) {
   };
 
   return (
-    <div style={{ marginTop: "180px" }} className="container">
-      <div className="row gx-4 gx-lg-5 align-items-center">
+    <div style={{ marginTop: "120px" }} className="container">
+      <div className="row align-items-center">
         <div className="col-md-6">
           {/* <img src={productImage} height="100%" width="100%" /> */}
 
           <div>
-            <section className="ftco-section">
+            <section>
               <div className="">
                 <div className="container-xl">
                   <div className="row">
-                    <div className="col-md-12 ">
+                    <div className="col-md-12 owl-carousel-margin-set">
                       <OwlCarousel
                         classNameName="owl-theme"
                         nav={true}
-                        autoplay={false}
-                        margin={20}
-                        animateOut="fadeOut"
-                        animateIn="fadeIn"
-                        dots={true}
-                        autoplayHoverPause={true}
+                        margin={10}
+                        // autoplay={false}
+                        // dots={true}
+                        // autoplayHoverPause={true}
                         items={1}
+                        loop={true}
                         navText={[
                           "<span class='ion-ios-arrow-back'></span>",
                           "<span class='ion-ios-arrow-forward'></span>",
@@ -145,6 +144,19 @@ function ProductCard({ product, varients }) {
                           return <ProductCarouselImage product={el} />;
                         })}
                       </OwlCarousel>
+                      <div
+                        className="img-zoom-result-div btn"
+                        onClick={(e) => {
+                          document
+                            .getElementById("zoom-product-image")
+                            .removeAttribute("src");
+                          document
+                            .getElementById("zoom-product-image")
+                            .style.zIndex("-1");
+                        }}
+                      >
+                        <img id="zoom-product-image" class="img-zoom-result" />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -155,7 +167,9 @@ function ProductCard({ product, varients }) {
         <div class="col-md-6">
           <div>
             <h1>{productTitle}</h1>
-            <h2>{productSubtitle}</h2>
+            <p style={{ marginTop: "-20px" }}>
+              <i>{productSubtitle}</i>
+            </p>
             <p className="color-dark">{productInfo}</p>
           </div>
           +

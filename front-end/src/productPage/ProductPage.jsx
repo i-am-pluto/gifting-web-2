@@ -99,14 +99,20 @@ function ProductPage() {
     } else return <></>;
   };
 
-  const isGiftImage = () => {
-    if (product) {
-      return (
-        <>
-          <ProductImages product={product.gift_image_urls} />
-        </>
-      );
-    } else return <></>;
+  // const isGiftImage = () => {
+  //   if (product) {
+  //     return (
+  //       <>
+  //         <ProductImages product={product.gift_image_urls} />
+  //       </>
+  //     );
+  //   } else return <></>;
+  // };
+
+  const productDescription = () => {
+    if (product && product.long_description) return product.long_description;
+    else
+      return " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam laoreet ornare ligula ut ornare. Sed ac massa a nisi elementum tincidunt. Donec id porta arcu. In elit est, fringilla vitae nunc non, pretium faucibus ante. Aliquam erat volutpat. Ut volutpat, erat a finibus dignissim, nulla est laoreet felis, ut facilisis orci felis at felis. Quisque sodales, diam vitae gravida eleifend, velit purus convallis arcu, ut ornare metus nulla vitae eros. Duis lacus leo, tristique in mollis sit amet, efficitur quis leo. Phasellus placerat ullamcorper blandit. Pellentesque tempor quam ac justo aliquet mattis. Suspendisse auctor nibh sed velit vestibulum, a aliquet massa ultrices. Cras lobortis eros ut odio mattis, id laoreet ligula semper. Phasellus sed lacinia nisi. ";
   };
 
   const isOptional = () => {
@@ -127,42 +133,43 @@ function ProductPage() {
   const isInformationTable = () => {
     if (product) {
       console.log(product.informationTable);
-      return (
-        <InformationTable
-          infoText1={product.info1}
-          infoText2={product.info2}
-          informationTable={product.informationTable}
-        />
-      );
+      return <InformationTable informationTable={product.informationTable} />;
     } else return <></>;
   };
 
   return (
-    <div style={{ marginTop: "50px" }}>
+    <div>
       {isProductCard()}
+      <hr className="mt-5" />
       <center>
-        <h2>
-          Gift <b>Images</b>
-        </h2>
-      </center>
-      {isGiftImage()}
-      <center>
-        <h2>
-          Information <b>Table</b>
-        </h2>
-      </center>
-      <center>{isInformationTable()}</center>
-      <center>
-        <h2>
+        <h2 className="mt-5">
           Customize <b>Gift</b>
         </h2>
       </center>
       {/* customizations */}
       {isOptional()}
       {/* information table */}
-      about the artist
+
+      <div className="long-product-desictiption container mt-5">
+        <center>
+          <hr />
+
+          <h2 className="mt-5 mb-3">
+            Product <b>Description</b>
+          </h2>
+        </center>
+        {productDescription()}
+      </div>
       <center>
-        <h2>
+        <hr />
+        <h2 className="mt-5">
+          Information <b>Table</b>
+        </h2>
+      </center>
+      <center className="mb-5">{isInformationTable()}</center>
+      <center>
+        <hr />
+        <h2 className="mt-5">
           About The <b>Artist</b>
         </h2>{" "}
       </center>

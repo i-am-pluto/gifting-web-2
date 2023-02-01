@@ -1,0 +1,18 @@
+.category-autocomplete-items {
+  position: absolute;
+  z-index: 2;
+  margin-top: 38px;
+  width: 30%;
+  max-height: 100px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.category-autocomplete-items div {
+  cursor: pointer;
+  border-radius: 0px;
+  border: 1px solid grey;
+}
+
+.category-recommendation {
+  border: lightblue 1px solid;
+}

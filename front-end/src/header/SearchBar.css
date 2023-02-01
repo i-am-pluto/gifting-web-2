@@ -1,6 +1,5 @@
 .header_search {
   display: flex;
-  flex: auto;
   align-items: center;
   height: 40px;
   margin-right: 0px;
@@ -19,17 +18,17 @@ input {
 }
 
 .header__searchIcon {
-  padding: 5px;
+  padding: 5px !important;
   padding-left: 10px;
+  min-width: max-content !important;
   padding-right: 10px;
-  margin-left: -20px;
   height: 100% !important;
-  background-color: #fe7f2d;
+  background-color: #78290f;
   transition-duration: 0.4s;
 }
 
 .header__searchIcon:hover {
-  background-color: #a34100;
+  background-color: brown;
 }
 
 #header_cat {
@@ -45,7 +44,8 @@ input {
 }
 
 .header__searchIcon {
-  border-radius: 0px 5px 5px 0px;
+  border-radius: 5px 5px 5px 5px;
+  width: 100%;
 }
 
 .autocomplete-items {
@@ -65,12 +65,13 @@ input {
 .autocomplete-items div {
   padding: 3px;
   cursor: pointer;
-  background-color: #fff;
+  background-color: #f7efe5;
+  color: rgb(26, 25, 25);
   border-bottom: 1px solid #d4d4d4;
 }
 .autocomplete-items :hover {
   /*when hovering an item:*/
-  background-color: orange;
+  background-color: #ffecd1;
 }
 
 .search-result-box {
@@ -88,14 +89,22 @@ input {
   height: 100px;
   border: lightblue 1px solid;
 }
+
+.search-recommendation-section {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .search-recommendation-thumbnail {
   margin-top: auto;
   margin-bottom: auto;
-  width: 100px;
-  height: 80px;
-  object-fit: cover;
-  /* overflow: hidden; */
-  /* border: 2px solid gray; */
-  background-color: rgb(243, 190, 93);
-  border-radius: 15px 0px 0px 15px;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  overflow: hidden;
+  border: 2px solid gray;
+  background-color: #ffecd1;
 }

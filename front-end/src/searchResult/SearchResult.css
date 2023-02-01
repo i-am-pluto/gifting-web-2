@@ -1,0 +1,99 @@
+.search-result-filter-box {
+  height: 40px;
+  width: 90%;
+  position: fixed;
+  z-index: 99;
+
+  left: 0;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.show-filter-btn {
+  height: 100%;
+  margin-left: -15px;
+  border-radius: 0px 0px 0px 0px;
+  width: 150px;
+}
+.sort-by-search-result {
+  width: 130px;
+  height: 90%;
+  font-size: smaller;
+}
+.search-result-product-list {
+  margin-left: auto;
+  margin-right: auto;
+}
+.product-card-search {
+  box-shadow: 0 2px 7px #dfdfdf;
+  margin: 15px;
+  width: 300px;
+  background: #fafafa;
+}
+
+.product-tumb-search {
+  height: 300px;
+  padding: 10px;
+  background: #f0f0f0;
+}
+
+.product-tumb-search img {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.product-details-search {
+  padding: 30px;
+}
+
+.product-details-search h4 a {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 18px;
+  text-transform: uppercase;
+  color: #363636;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.product-details-search h4 a:hover {
+  color: #fbb72c;
+}
+
+.product-details-search p {
+  font-size: 15px;
+  line-height: 22px;
+  margin-bottom: 18px;
+  color: #999;
+}
+
+.product-bottom-details-search {
+  overflow: hidden;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+.product-bottom-details-search div {
+  float: left;
+  width: 50%;
+}
+
+.product-price-search {
+  font-size: 18px;
+  color: #fbb72c;
+  font-weight: 600;
+}
+
+.product-links-search {
+  text-align: right;
+}
+
+.product-links-search a {
+  display: inline-block;
+  margin-left: 5px;
+  color: #e1e1e1;
+  transition: 0.3s;
+  font-size: 17px;
+}

@@ -73,8 +73,6 @@ const buyNow = async (productid, varient, customization, user_id) => {
   });
 
   const savedOrder = await order.save();
-  console.log(savedOrder);
-  console.log(order);
   let index = product.varients.findIndex((el) => {
     return el.varient_stripe_id === varient.varient_stripe_id;
   });
@@ -85,9 +83,7 @@ const buyNow = async (productid, varient, customization, user_id) => {
 
 const confirmOrder = async (order_id, orderDetails, user_id) => {
   const order = await getOrderById(order_id);
-  console.log(order);
   order.order_address = orderDetails.address;
-
   order.contact_details = {};
 
   order.contact_details.phone = orderDetails.contact_details.phonenumber;
@@ -95,18 +91,7 @@ const confirmOrder = async (order_id, orderDetails, user_id) => {
 
   order.order_status = "PAYMENT_NOT_RECIEVED";
   const savedOrder = await order.save();
-  // return checkout link
 
-  // const line_items = [{ price: order.stripe_price_id, quantity: 1 }];
-  // console.log(line_items);
-
-  // const artist = await getArtistById(user_id);
-
-  // const session = await createCheckOutSession(
-  //   line_items,
-  //   order.id,
-  //   artist.stripe_account_id
-  // );
   return savedOrder;
 };
 
@@ -129,18 +114,14 @@ const getOrderById = async (order_id) => {
 
 // set order dispatched
 const setOrderDispatched = async (order_id) => {
-  const order = orderRepository.getOrderById(order_id);
-  order.status = "DISPATCHED";
-  const savedOrder = await order.save();
-  return savedOrder;
+  const order = orderRepository.markOrderDispatched(order_id);
+  return order;
 };
 
 // set order delivered
 const setOrderDelivered = async (order_id) => {
-  const order = orderRepository.getOrderById(order_id);
-  order.status = "DELIVERED";
-  const savedOrder = await order.save();
-  return savedOrder;
+  const order = orderRepository.markOrderDelivered(order_id);
+  return order;
 };
 
 // end the order
@@ -168,5 +149,6 @@ module.exports = {
   createOrderFromCartItem,
   createOrderFromProduct,
   confirmOrder,
+  markOrderPaid,
   removeOrder,
 };

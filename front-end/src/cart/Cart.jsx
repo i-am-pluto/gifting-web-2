@@ -106,10 +106,10 @@ function Cart() {
         <div class="row">
           <div class="col-md-8 cart">
             <div class="title">
-              <div class="row">
-                <div class="col">
+              <div class="row ">
+                <div class="col-lg-10">
                   <h4>
-                    <b>Shopping Cart</b>
+                    Shopping <b>Cart</b>
                   </h4>
                 </div>
                 <div class="col align-self-center text-right text-muted">
@@ -121,56 +121,79 @@ function Cart() {
               return (
                 <div>
                   <div className="row">
-                    <div
-                      className="btn col-md-10"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        history.push("/product/" + product.product_id);
-                      }}
-                    >
-                      <div className="row">
-                        <div className="col-sm-3">
+                    <div className="btn col-md-10">
+                      <div className="d-flex align-items-center">
+                        <div
+                          className="col-4"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            history.push("/product/" + product.product_id);
+                          }}
+                        >
                           <img
-                            src={product.image}
+                            src={product.product_image}
                             alt=""
                             srcset=""
                             style={{
                               objectFit: "contain",
                               maxHeight: "100%",
                               maxWidth: "100%",
-                              boxShadow: "0px 6px 6px 0px",
                             }}
                           />
                         </div>
-                        <div className="col-sm-4 ml-1 mt-2">
+                        <div
+                          className="col-6 mt-3"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            history.push("/product/" + product.product_id);
+                          }}
+                        >
                           <p>
                             {" "}
-                            <b style={{ fontSize: "15px" }}>
+                            <b style={{ fontSize: "14px" }}>
                               {product.product_name}
                             </b>
                             <br />
-                            <i style={{ fontSize: "13px" }}>
+                            <i
+                              style={{
+                                fontSize: "11px",
+                              }}
+                            >
                               {product.artist_name}
                             </i>
                           </p>
+
+                          <p style={{ fontSize: "10px" }}>
+                            {" "}
+                            <i>~ "{product.customization}"</i>
+                          </p>
+
+                          <p
+                            style={{
+                              fontSize: "11px",
+                            }}
+                          >
+                            {product.varient_name}
+                          </p>
+
                           <p>
-                            <b>
+                            <b style={{ fontSize: "14px" }}>
                               ₹ &nbsp;
                               {product.varient_price}
                             </b>
                           </p>
                         </div>
+                        <div className="col-1 ml-auto mr-2">
+                          <button
+                            className="btn btn-outline-dark"
+                            id={`cart-item-${i}`}
+                            // style={{ width: "40px" }}
+                            onClick={deleteProduct}
+                          >
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-sm-1">
-                      <button
-                        className="ml-2 btn btn-outline-dark d-flex"
-                        id={`cart-item-${i}`}
-                        // style={{ width: "40px" }}
-                        onClick={deleteProduct}
-                      >
-                        <i class="fa fa-times" aria-hidden="true"></i>
-                      </button>
                     </div>
                   </div>
 

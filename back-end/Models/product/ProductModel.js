@@ -45,10 +45,7 @@ const productSchema = new Schema({
   description: {
     type: String,
   },
-  info1: {
-    type: String,
-  },
-  info2: {
+  long_description: {
     type: String,
   },
   informationTable: {

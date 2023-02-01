@@ -1,0 +1,45 @@
+.order-status-line {
+  display: flex;
+  width: 90%;
+  justify-content: center;
+  height: 5px;
+  margin-bottom: 15px;
+  align-items: center;
+}
+.tick {
+  width: 100%;
+  height: 5px;
+  background-color: rgb(0, 0, 0);
+  font-size: larger;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cross {
+  width: 100%;
+  height: 2px;
+  font-size: larger;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.363);
+}
+
+.order-status-label {
+  display: flex;
+  width: 90%;
+  justify-content: center;
+}
+
+.order-status-label div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.product-order-image {
+  max-width: 250px;
+  max-height: 250px;
+  border: 1px solid black;
+  object-fit: cover;
+}

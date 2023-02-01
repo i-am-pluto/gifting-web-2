@@ -8,6 +8,7 @@ const EditArtistProfile = ({ profile_user }) => {
     profile_user.socials = {};
   }
 
+  const [artistName, setArtistName] = useState(profile_user.artist_name);
   const [bio, setBio] = useState(profile_user.bio);
   const [fb, setFb] = useState(
     profile_user.socials.facebook ? profile_user.socials.facebook : ""
@@ -46,6 +47,7 @@ const EditArtistProfile = ({ profile_user }) => {
     const user = {
       socials: socials,
       bio: bio,
+      artist_name: artistName,
     };
     const response = await fetch(
       `http://localhost:5000/api/artist/${profile_user.id}/edit`,
@@ -60,7 +62,7 @@ const EditArtistProfile = ({ profile_user }) => {
       }
     );
     const data = await response.json();
-    if (!data.success) {
+    if (data.success === false) {
       alert(data.message);
     }
 
@@ -76,13 +78,12 @@ const EditArtistProfile = ({ profile_user }) => {
         }
       );
       const d2 = await responsePfp.json();
-      if (!d2.success) {
+      if (d2.success === false) {
         alert(d2.message);
       }
-      // window.location.reload();
     }
+    window.location.reload();
   };
-
   return (
     <div>
       <div class="container bootstrap snippets bootdey">
@@ -95,6 +96,7 @@ const EditArtistProfile = ({ profile_user }) => {
                 class="avatar img-circle img-thumbnail"
                 alt="avatar"
                 id="cover-pic"
+                src={profile_user.cover_url}
               />
               <h6>Cover Picture</h6>
               <input
@@ -103,6 +105,15 @@ const EditArtistProfile = ({ profile_user }) => {
                 onChange={(input) => {
                   var reader = new FileReader();
                   reader.readAsDataURL(input.target.files[0]);
+
+                  if (
+                    !input.target.files[0].type.endsWith("jpeg") &&
+                    !input.target.files[0].type.endsWith("png")
+                  ) {
+                    alert("Cover Picture should either be jpeg or png file");
+                    return;
+                  }
+
                   reader.onload = (e) => {
                     document
                       .getElementById("cover-pic")
@@ -118,6 +129,20 @@ const EditArtistProfile = ({ profile_user }) => {
           <div class="col-md-9 personal-info">
             <form class="form-horizontal" onSubmit={handleSubmit}>
               <div class="form-group">
+                <label class="col-lg-3 control-label">Artist name:</label>
+                <div class="col-lg-8">
+                  <input
+                    class="form-control"
+                    type="text"
+                    value={artistName}
+                    onChange={(e) => {
+                      setArtistName(e.target.value);
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
                 <label class="col-lg-3 control-label">Bio:</label>
                 <div class="col-lg-8">
                   <textarea
@@ -131,8 +156,12 @@ const EditArtistProfile = ({ profile_user }) => {
                   />
                 </div>
               </div>
+
               <div class="form-group">
                 <label class="col-lg-3 control-label">Socials:</label>
+                <p className="text-small font-weight-light font-italic ml-5">
+                  *Enter the entire links to your profiles
+                </p>
                 <div className="row ml-4">
                   <div className="col-lg-1">
                     <i

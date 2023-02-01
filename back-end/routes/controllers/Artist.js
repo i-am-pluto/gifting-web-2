@@ -9,19 +9,13 @@ const {
   updateArtist,
   setCoverPic,
   getArtistPorfile,
+  getBestSelling,
 } = require("../../Services/ArtistService");
 const AuthMiddleware = require("./AuthMiddleware");
 const mongoose = require("mongoose");
 const { getUserById } = require("../../Repositories/UserRepository");
 
 const router = express.Router();
-
-// get profile
-router.get("/:id", AuthMiddleware.isUserAuthorOfRequest, async (req, res) => {
-  const artist = await getArtistById(mongoose.mongo.ObjectId(req.params.id));
-
-  res.json(artist);
-});
 
 // view profile card
 router.get("/:id/artistcard", async (req, res) => {
@@ -40,6 +34,16 @@ router.get("/:id/profile", async (req, res) => {
     );
     console.log(profile);
     res.json(profile);
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error });
+  }
+});
+
+router.get("/bestselling", async (req, res) => {
+  try {
+    const artists = await getBestSelling();
+    res.json(artists);
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error });
@@ -102,5 +106,12 @@ router.get("/activate_stripe", AuthMiddleware.isArtist, async (req, res) => {
 });
 
 // get all orders sorted by date
+
+// get profile
+router.get("/:id", AuthMiddleware.isUserAuthorOfRequest, async (req, res) => {
+  const artist = await getArtistById(mongoose.mongo.ObjectId(req.params.id));
+
+  res.json(artist);
+});
 
 module.exports = router;

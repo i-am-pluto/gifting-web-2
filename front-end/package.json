@@ -19,7 +19,6 @@
     "formik": "^2.2.9",
     "jquery": "^3.6.0",
     "mdb-react-ui-kit": "^2.4.0",
-    "mdbreact": "^5.2.0",
     "navigate": "^0.3.6",
     "popper.js": "^1.16.1",
     "pure-react-carousel": "^1.28.1",
@@ -27,11 +26,12 @@
     "react-alert": "^7.0.3",
     "react-bootstrap": "^2.1.2",
     "react-dom": "^17.0.2",
+    "react-hook-form": "^7.41.5",
     "react-multi-carousel": "^2.8.0",
     "react-owl-carousel": "^2.3.3",
-    "react-responsive-carousel": "^3.2.22",
+    "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^5.3.3",
-    "react-scripts": "5.0.0",
+    "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

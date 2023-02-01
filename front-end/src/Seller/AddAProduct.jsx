@@ -10,55 +10,165 @@ import upload from "../assets/img/uploadImage.png";
 let MainImage;
 
 function ProductCardEdit() {
+  let [productImages, setProductImages] = useState([""]);
+
   return (
-    <div style={{ marginTop: "120px" }}>
-      <div class="wrapper">
-        <div class="product-img">
-          <div
-            src={upload}
-            style={{
-              height: "100%",
-              width: "100%",
-              cursor: "pointer",
-              backgroundColor: "grey",
-            }}
-            className="zoom d-flex justify-content-center align-items-center"
-            onClick={() => {
-              document.getElementById("add-product-card-image").click();
-            }}
-          >
-            <img
-              src={upload}
-              alt=""
-              srcset=""
-              id="product-img-temp"
-              style={{ width: "80px" }}
-            />
-          </div>
+    <div style={{ marginTop: "80px" }} className="container">
+      <div className="row align-items-center">
+        <div className="col-md-6">
+          <section>
+            <div className="">
+              <div className="container-xl ml-auto mr-auto">
+                <div className="row d-flex align-items-center">
+                  <div
+                    src={upload}
+                    style={{
+                      cursor: "pointer",
+                      width: "100%",
+                      height: "100%",
+                      border: "1px dotted grey",
+                    }}
+                    className="d-flex justify-content-center align-items-center row "
+                    onClick={() => {
+                      document.getElementById("add-product-card-image").click();
+                    }}
+                  >
+                    <img
+                      src={upload}
+                      alt=""
+                      srcset=""
+                      id="product-img-temp"
+                      style={{ width: "100%" }}
+                    />
 
-          <input
-            type="file"
-            id="add-product-card-image"
-            style={{ display: "none" }}
-            onChange={(input) => {
-              var reader = new FileReader();
-              reader.readAsDataURL(input.target.files[0]);
-              reader.onload = (e) => {
-                document
-                  .getElementById(`product-img-temp`)
-                  .setAttribute("src", e.target.result);
-                document.getElementById(`product-img-temp`).style.minWidth =
-                  "100%";
-                document.getElementById(`product-img-temp`).style.minHheight =
-                  "100%";
+                    <input
+                      type="file"
+                      id="add-product-card-image"
+                      style={{ display: "none" }}
+                      onChange={(input) => {
+                        var reader = new FileReader();
+                        reader.readAsDataURL(input.target.files[0]);
 
-                MainImage = reader.result;
-              };
-            }}
-          />
+                        if (
+                          !input.target.files[0].type.endsWith("jpeg") &&
+                          !input.target.files[0].type.endsWith("png")
+                        ) {
+                          alert("Must upload only png or jpeg");
+                          return;
+                        }
+                        reader.onload = (e) => {
+                          document
+                            .getElementById(`product-img-temp`)
+                            .setAttribute("src", e.target.result);
+                          document.getElementById(
+                            `product-img-temp`
+                          ).style.minWidth = "100%";
+                          document.getElementById(
+                            `product-img-temp`
+                          ).style.minHheight = "100%";
+
+                          MainImage = reader.result;
+                        };
+                      }}
+                    />
+                  </div>
+                  <div className="row">
+                    {productImages.map((prod, i) => {
+                      return (
+                        <div
+                          class="col-sm-4 mt-1"
+                          style={{ maxHeight: "66px", maxWidth: "98px" }}
+                        >
+                          <div
+                            src={upload}
+                            style={{
+                              height: "100%",
+                              width: "100%",
+                              cursor: "pointer",
+                              border: "1px dotted grey",
+                              background: "lightgrey",
+                            }}
+                            className="zoom d-flex justify-content-center align-items-center"
+                            onClick={() => {
+                              document
+                                .getElementById(`add-product-card-image-${i}`)
+                                .click();
+                            }}
+                          >
+                            <img
+                              src={upload}
+                              alt=""
+                              srcset=""
+                              id={`product-img-temp-${i}`}
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "contain",
+                              }}
+                            />
+                          </div>
+
+                          <input
+                            type="file"
+                            id={`add-product-card-image-${i}`}
+                            style={{ display: "none" }}
+                            onChange={(input) => {
+                              var reader = new FileReader();
+                              reader.readAsDataURL(input.target.files[0]);
+                              if (
+                                !input.target.files[0].type.endsWith("jpeg") &&
+                                !input.target.files[0].type.endsWith("png")
+                              ) {
+                                alert("Must upload only png or jpeg");
+                                return;
+                              }
+                              reader.onload = (e) => {
+                                document
+                                  .getElementById(`product-img-temp-${i}`)
+                                  .setAttribute("src", e.target.result);
+                                document.getElementById(
+                                  `product-img-temp-${i}`
+                                ).style.minWidth = "100%";
+                                document.getElementById(
+                                  `product-img-temp-${i}`
+                                ).style.minHheight = "100%";
+
+                                const temp = productImages;
+                                temp[i] = reader.result;
+                                setProductImages(temp);
+                              };
+
+                              reader.readAsDataURL(input.target.files[0]);
+                            }}
+                          />
+                        </div>
+                      );
+                    })}
+
+                    <div className="col-sm-4 mt-1">
+                      <button
+                        className="col btn btn-outline-dark h-100 w-100"
+                        id="add-product-image-button"
+                        onClick={(e) => {
+                          if (productImages.length < 4)
+                            setProductImages([...productImages, ""]);
+                          else
+                            document
+                              .getElementById("add-product-image-button")
+                              .classList.add("disabled");
+                        }}
+                      >
+                        Add Image
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
-        <div class="product-info">
-          <div class="product-text">
+        <div class="col-md-6">
+          <div>
             <h1>
               <input
                 type="text"
@@ -68,63 +178,59 @@ function ProductCardEdit() {
                 placeholder="Product Title"
               />
             </h1>
-            <h2>
-              (<i>Artist Name</i>)
-            </h2>
+            <p>
+              <i>(artist name)</i>
+            </p>
             <p className="color-dark">
               <textarea
                 className="form-control"
-                maxLength={200}
-                placeholder="Product Description (in upto 200 words)"
+                maxLength={150}
+                placeholder="Brief Product Description (in upto 150 words)"
                 style={{ height: "100%" }}
                 id="product-desc-edit"
               />
             </p>
           </div>
-
-          <div>
-            <center>
-              <select name="Vareints" id="" disabled="disabled">
-                <option value="">Varients</option>
-              </select>
-            </center>
-          </div>
-
-          {/* <p style={{ fontSize: "15px" }} className="row">
-            <input
-              type="number"
-              name="product-price-edit"
-              className="form-control col-lg-5"
-              id="product-price-edit"
-              placeholder="price in &#8377;"
-            />
-            <input
-              type="number"
-              name="product-stock-edit"
-              className="form-control col-lg-7"
-              id="product-stock-edit"
-              placeholder="Number of stocks"
-            />
-          </p> */}
-
-          <div class="product-price-btn">
-            <div
-              className="d-flex justify-content-end"
-              //   style={{ marginTop: "-10px" }}
+          +
+          <div className="d-flex justify-content-end mr-3 ml-3">
+            <select
+              name="varientSelect"
+              id="varient-select-product"
+              className="form-select form-select-sm "
+              disabled
             >
-              <button
-                type="button"
-                className="btn btn-outline-success button-buy disabled"
-              >
-                buy now
-              </button>
+              <option value="v">varients</option>
+            </select>
+          </div>
+          <div className="row">
+            {" "}
+            <div className="col">
+              <div class="">
+                <p className="btn" style={{ fontSize: "30px" }}>
+                  <b>
+                    {" "}
+                    ₹<span>9999</span>
+                  </b>{" "}
+                </p>
+                <br />
+              </div>
+              <div className="col">
+                <div className="d-flex" style={{ marginTop: "-10px" }}>
+                  <button
+                    type="button"
+                    className="btn btn-outline-success flex-shrink-0 mr-3"
+                  >
+                    Buy Now <i class="fa-solid fas fa-money-check"></i>
+                  </button>
 
-              <button
-                type="button"
-                className="btn btn-outline-warning button-add disabled"
-              >
-                add to cart
-              </button>
+                  <button
+                    className="btn btn-outline-dark flex-shrink-0"
+                    type="button"
+                  >
+                    Add to cart <i class="fa-solid fa-cart-shopping"></i>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -283,8 +389,8 @@ function AddAProduct() {
 
       customization,
       customization_optional,
-      info1: document.getElementById("product-info1-edit").value,
-      info2: document.getElementById("product-info2-edit").value,
+      long_description: document.getElementById("product-long-description-edit")
+        .value,
       informationTable: InformationTable,
     };
     product = obj;
@@ -336,7 +442,7 @@ function AddAProduct() {
 
   return (
     <div>
-      <div style={{ marginTop: "90px" }}>
+      <div style={{ marginTop: "120px" }}>
         <center>
           <h1>
             <b>Product Information</b>
@@ -346,87 +452,7 @@ function AddAProduct() {
         <ProductCardEdit />
 
         <center>
-          <h2>
-            Gift <b>Images</b>
-          </h2>
-        </center>
-        <ProductImagesEdit />
-        <div className="container-xxl">
-          <div className="row">
-            {productImages.map((prod, i) => {
-              return (
-                <div class="product-img">
-                  <div
-                    src={upload}
-                    style={{
-                      height: "100%",
-                      width: "100%",
-                      cursor: "pointer",
-                      backgroundColor: "grey",
-                    }}
-                    className="zoom d-flex justify-content-center align-items-center"
-                    onClick={() => {
-                      document
-                        .getElementById(`add-product-card-image-${i}`)
-                        .click();
-                    }}
-                  >
-                    <img
-                      src={upload}
-                      alt=""
-                      srcset=""
-                      id={`product-img-temp-${i}`}
-                      style={{ width: "80px" }}
-                    />
-                  </div>
-
-                  <input
-                    type="file"
-                    id={`add-product-card-image-${i}`}
-                    style={{ display: "none" }}
-                    onChange={(input) => {
-                      var reader = new FileReader();
-                      reader.readAsDataURL(input.target.files[0]);
-                      reader.onload = (e) => {
-                        document
-                          .getElementById(`product-img-temp-${i}`)
-                          .setAttribute("src", e.target.result);
-                        document.getElementById(
-                          `product-img-temp-${i}`
-                        ).style.minWidth = "100%";
-                        document.getElementById(
-                          `product-img-temp-${i}`
-                        ).style.minHheight = "100%";
-
-                        const temp = productImages;
-                        temp[i] = reader.result;
-                        setProductImages(temp);
-                      };
-
-                      reader.readAsDataURL(input.target.files[0]);
-                    }}
-                  />
-                </div>
-              );
-            })}
-          </div>
-          <button
-            className="col btn btn-outline-dark"
-            id="add-product-image-button"
-            onClick={(e) => {
-              if (productImages.length < 4)
-                setProductImages([...productImages, ""]);
-              else
-                document
-                  .getElementById("add-product-image-button")
-                  .classList.add("disabled");
-            }}
-          >
-            Add An Image
-          </button>
-        </div>
-        <center>
-          <h2>
+          <h2 className="mt-5">
             Customize <b>Gift</b>
           </h2>
           <h6>
@@ -446,20 +472,36 @@ function AddAProduct() {
             id="product-customization-edit"
             placeholder="Enter Questions for The Customer Regarding Customization"
             rows="4"
-            style={{ background: "#fff" }}
+            style={{ background: "whitesmoke" }}
           ></textarea>
         </div>
         <br />
         {/* information table */}
+
         <center>
-          <h2>
+          <h2 className="mt-5">
+            Product <b>Description</b>
+          </h2>
+        </center>
+
+        <textarea
+          className="form-control container"
+          id="product-long-description-edit"
+          maxLength={1000}
+          placeholder="In depth Product Description (upto 1000 charectars)"
+          rows="12"
+          style={{ background: "whitesmoke" }}
+        ></textarea>
+
+        <center>
+          <h2 className="mt-5">
             Information <b>Table</b>
           </h2>
         </center>
         <InformationTableEdit informationTable={InformationTable} />
         {/* about the artist */}
         <center>
-          <h2>
+          <h2 className="mt-5">
             About The <b>Artist</b>
           </h2>{" "}
         </center>

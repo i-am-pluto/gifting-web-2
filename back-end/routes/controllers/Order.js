@@ -18,7 +18,8 @@ const router = express.Router();
 router.get("/:orderid/", AuthMiddleware.canUserViewOrder, async (req, res) => {
   try {
     const order = await getOrderById(
-      mongoose.mongo.ObjectId(req.params.orderid)
+      mongoose.mongo.ObjectId(req.params.orderid),
+      mongoose.mongo.ObjectId(req.user.id)
     );
     res.json(order);
   } catch (error) {
@@ -141,7 +142,7 @@ router.post(
 // update an order
 // to do anything with the order the order must be paid first
 // if the order is paid only the artist can mark it as dispatched
-router.get("/:orderid/dispatched", async (req, res) => {
+router.get("/:orderid/markorderdispatched", async (req, res) => {
   try {
     await orderService.setOrderDispatched(
       mongoose.mongo.ObjectId(req.params.orderid)
@@ -151,8 +152,9 @@ router.get("/:orderid/dispatched", async (req, res) => {
     res.json({ success: false, message: "order failed to be placed" });
   }
 });
+
 // if the order is delivered only the customer can mark the order as delivered
-router.get("/:orderid/delivered", async (req, res) => {
+router.get("/:orderid/markorderdelivered", async (req, res) => {
   try {
     await orderService.setOrderDelivered(
       mongoose.mongo.ObjectId(req.params.orderid)

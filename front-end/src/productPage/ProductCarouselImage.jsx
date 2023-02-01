@@ -2,16 +2,15 @@ import React from "react";
 
 const ProductCarouselImage = ({ product }) => {
   return (
-    <div>
+    <div class="img-zoom-container">
       <img
         src={product}
         alt=""
         srcset=""
-        style={{
-          maxHeight: "100%",
-          maxWidth: "100%",
-          objectFit: "cover",
-          boxShadow: "4px 4px 4px 4px",
+        onClick={(e) => {
+          document
+            .getElementById("zoom-product-image")
+            .setAttribute("src", e.currentTarget.src);
         }}
       />
     </div>

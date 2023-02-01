@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import "./assets/css/RollingCarousel.css";
@@ -7,57 +7,15 @@ import img from "./assets/img/image.png";
 import CarouselProduct from "./CarouselProduct";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function RollingCarousel() {
-  let ProductData = [
-    {
-      productId: 2012030,
-      name: "A",
-      image:
-        "https://images.ctfassets.net/2d5q1td6cyxq/4kmwcxuqXxUxUVfggQhbiI/650b0af104bfdf9979545eb326786243/Hero-hottoddy_.jpg",
-      artistName: "LR",
-      price: 200,
-    },
-    {
-      productId: 2012039,
-      name: "A",
-      image:
-        "https://images.ctfassets.net/2d5q1td6cyxq/4kmwcxuqXxUxUVfggQhbiI/650b0af104bfdf9979545eb326786243/Hero-hottoddy_.jpg",
-      artistName: "RR",
-      price: 200,
-    },
-    {
-      productId: 2012041,
-      name: "Bb",
-      image:
-        "https://images.ctfassets.net/2d5q1td6cyxq/4kmwcxuqXxUxUVfggQhbiI/650b0af104bfdf9979545eb326786243/Hero-hottoddy_.jpg",
-      artistName: "Sunny Leone",
-      price: 200,
-    },
-    {
-      productId: 2012046,
-      name: "A",
-      image:
-        "https://images.ctfassets.net/2d5q1td6cyxq/4kmwcxuqXxUxUVfggQhbiI/650b0af104bfdf9979545eb326786243/Hero-hottoddy_.jpg",
-      artistName: "LR",
-      price: 200,
-    },
-    {
-      productId: 2012047,
-      name: "A",
-      image:
-        "https://images.ctfassets.net/2d5q1td6cyxq/4kmwcxuqXxUxUVfggQhbiI/650b0af104bfdf9979545eb326786243/Hero-hottoddy_.jpg",
-      artistName: "RR",
-      price: 200,
-    },
-    {
-      productId: 2012049,
-      name: "A",
-      image:
-        "https://images.ctfassets.net/2d5q1td6cyxq/4kmwcxuqXxUxUVfggQhbiI/650b0af104bfdf9979545eb326786243/Hero-hottoddy_.jpg",
-      artistName: "LR",
-      price: 200,
-    },
-  ];
+function RollingCarousel({ user, products }) {
+  let ProductData = products;
+  const [guest, setGuest] = useState("Guest");
+
+  useEffect(() => {
+    if (user.name) {
+      setGuest(user.name.f_name);
+    }
+  }, [user]);
 
   return (
     <div>
@@ -67,7 +25,7 @@ function RollingCarousel() {
             <div className="col-md-12 text-center">
               <center>
                 <h2 style={{ marginBottom: "40px", marginTop: "-50px" }}>
-                  Welcome <b>Guest</b>
+                  Welcome <b>{guest}</b>
                 </h2>
               </center>
             </div>

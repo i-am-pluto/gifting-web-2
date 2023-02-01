@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./assets/css/product.css";
 
 function CarouselProduct({ product }) {
-  console.log(product);
   const image = product.main_image_url;
   const name = product.product_name;
   let artistName = "";
@@ -14,17 +13,16 @@ function CarouselProduct({ product }) {
   return (
     <div className="item">
       <div className="work">
-        <div
-          className="img d-flex align-items-center justify-content-center rounded"
-          style={{ backgroundImage: `url("${image}")` }}
+        <a
+          href={`/product/${productId}`}
+          className="icon d-flex align-items-center justify-content-center"
         >
-          <a
-            href={`/product/${productId}`}
-            className="icon d-flex align-items-center justify-content-center"
-          >
-            <span class="ion-ios-cart" style={{ color: "black" }}></span>
-          </a>
-        </div>
+          <div
+            className="img d-flex align-items-center justify-content-center rounded"
+            style={{ backgroundImage: `url("${image}")` }}
+          ></div>
+        </a>
+
         {/* product text */}
         <div className="text pt-3 w-100 text-center">
           <h3>

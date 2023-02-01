@@ -93,3 +93,34 @@
 .product-image {
   width: 100% !important;
 }
+
+* {
+  box-sizing: border-box;
+}
+
+.owl-carousel .owl-stage {
+  display: flex;
+  align-items: center;
+}
+.img-zoom-lens {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  /*set the size of the lens:*/
+  width: 40px;
+  height: 40px;
+}
+.img-zoom-result-div {
+  max-width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: scroll;
+  position: absolute;
+  left: -1%;
+  /* right: 50%; */
+  top: -10px;
+  z-index: 2;
+}
+
+.img-zoom-result {
+  scale: 1.5;
+}

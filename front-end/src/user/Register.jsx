@@ -10,7 +10,6 @@ function Register() {
   let address = {};
   let artist = false;
   let customer = false;
-  let [alert, setAlert] = useState("");
   let navigate = useHistory();
   const signupButton = async (e) => {
     // console.log("hi");
@@ -38,13 +37,10 @@ function Register() {
     });
 
     respone.json().then((data) => {
-      if (data.success && artist) {
-        console.log(data);
-        window.location.replace(data.url);
-      } else if (data.success) {
+      if (data.success) {
         navigate.push("/login");
       } else {
-        setAlert("Pls Fill The Form With Valid Information");
+        alert("Pls Fill The Form With Valid Information");
       }
       console.log(data);
     });
@@ -67,22 +63,21 @@ function Register() {
     console.log("hi");
 
     if (!name.f_name || !email || !password) {
-      setAlert("Please Fill the Required Fields");
-      console.log(alert);
+      alert("Please Fill the Required Fields");
       return;
     }
     if (!validateEmail(email)) {
-      setAlert("Invalid Email Address");
+      alert("Invalid Email Address");
       console.log("2");
       return;
     }
     if (!validatePassword(password)) {
-      setAlert("Password Must be atleast 8 charectars long");
+      alert("Password Must be atleast 8 charectars long");
       console.log("3");
       return;
     }
     console.log(email);
-    setAlert("");
+
     console.log("hi");
     setGeneralInfo("");
     setExtraInfo(
@@ -358,9 +353,6 @@ function Register() {
 
   return (
     <div>
-      <h1 style={{ color: "red", marginTop: "65px", textAlign: "center" }}>
-        {alert}
-      </h1>
       {generalInfo}
       {extraInfo}
     </div>

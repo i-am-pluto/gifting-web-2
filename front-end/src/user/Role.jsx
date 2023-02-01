@@ -66,9 +66,18 @@ function Role() {
                   const body = await response.json();
                   if (body.success) {
                     setArtistButton(
-                      <div className="">
+                      <div className="col">
                         <a href={`${id}/artist`}>
-                          <button className={"btn btn-danger"}>Artist</button>
+                          <div
+                            className="col d-flex align-items-center"
+                            style={{
+                              backgroundImage: "url('/path/to/artistic/image')",
+                            }}
+                          >
+                            <div className="artist-div p-3">
+                              {/* content for artist div goes here */}
+                            </div>
+                          </div>
                         </a>
                       </div>
                     );
@@ -105,12 +114,15 @@ function Role() {
                   const body = await response.json();
                   if (body.success) {
                     setCustomerButton(
-                      <div className="">
-                        <a href={`${id}/customer`}>
-                          <button className={"btn btn-warning"}>
-                            Customer
-                          </button>
-                        </a>
+                      <div
+                        className="col d-flex align-items-center"
+                        style={{
+                          backgroundImage: "url('/path/to/customer/image')",
+                        }}
+                      >
+                        <div className="customer-div p-3">
+                          {/* content for customer div goes here */}
+                        </div>
                       </div>
                     );
                   } else {
@@ -132,14 +144,16 @@ function Role() {
   }, []);
 
   return (
-    <div style={{ marginTop: "60px" }}>
+    <div className="margin-set-top">
       <div className="mt-4 container" style={{ marginTop: "60px" }}>
-        <div
-          className="d-flex justify-content-around align-items-center"
-          style={{ height: "600px", marginRight: "100px" }}
-        >
+        <div className="row justify-content-around align-items-center">
           {artistButton}
           {customerButton}
+        </div>
+        <div className="row">
+          <div className="col d-flex justify-content-center">
+            <button className="btn btn-secondary logout-button">Logout</button>
+          </div>
         </div>
       </div>
     </div>

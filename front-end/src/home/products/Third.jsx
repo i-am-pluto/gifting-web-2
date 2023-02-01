@@ -1,73 +1,7 @@
 import React from "react";
 import "./one.css";
-function Third() {
-  let ProductData = [
-    {
-      productId: 2012030,
-      name: "A",
-      image:
-        "https://images.ctfassets.net/2d5q1td6cyxq/4kmwcxuqXxUxUVfggQhbiI/650b0af104bfdf9979545eb326786243/Hero-hottoddy_.jpg",
-      artistName: "LR",
-      price: 200,
-    },
-    {
-      productId: 2012039,
-      name: "A",
-      image:
-        "https://images.ctfassets.net/2d5q1td6cyxq/4kmwcxuqXxUxUVfggQhbiI/650b0af104bfdf9979545eb326786243/Hero-hottoddy_.jpg",
-      artistName: "RR",
-      price: 200,
-    },
-    {
-      productId: 2012041,
-      name: "Bj",
-      image:
-        "https://images.ctfassets.net/2d5q1td6cyxq/4kmwcxuqXxUxUVfggQhbiI/650b0af104bfdf9979545eb326786243/Hero-hottoddy_.jpg",
-      artistName: "SL",
-      price: 200,
-    },
-    {
-      productId: 2012046,
-      name: "A",
-      image:
-        "https://images.ctfassets.net/2d5q1td6cyxq/4kmwcxuqXxUxUVfggQhbiI/650b0af104bfdf9979545eb326786243/Hero-hottoddy_.jpg",
-      artistName: "LR",
-      price: 200,
-    },
-    {
-      productId: 2012047,
-      name: "A",
-      image:
-        "https://images.ctfassets.net/2d5q1td6cyxq/4kmwcxuqXxUxUVfggQhbiI/650b0af104bfdf9979545eb326786243/Hero-hottoddy_.jpg",
-      artistName: "RR",
-      price: 200,
-    },
-    {
-      productId: 2012049,
-      name: "A",
-      image:
-        "https://images.ctfassets.net/2d5q1td6cyxq/4kmwcxuqXxUxUVfggQhbiI/650b0af104bfdf9979545eb326786243/Hero-hottoddy_.jpg",
-      artistName: "LR",
-      price: 200,
-    },
-    {
-      productId: 2012047,
-      name: "A",
-      image:
-        "https://images.ctfassets.net/2d5q1td6cyxq/4kmwcxuqXxUxUVfggQhbiI/650b0af104bfdf9979545eb326786243/Hero-hottoddy_.jpg",
-      artistName: "RR",
-      price: 200,
-    },
-    {
-      productId: 2012049,
-      name: "Ass",
-      image:
-        "https://images.ctfassets.net/2d5q1td6cyxq/4kmwcxuqXxUxUVfggQhbiI/650b0af104bfdf9979545eb326786243/Hero-hottoddy_.jpg",
-      artistName: "LR",
-      price: 200,
-    },
-  ];
-
+function Third({ products }) {
+  let ProductData = products;
   return (
     <div>
       <center>
@@ -76,20 +10,23 @@ function Third() {
         </h2>
       </center>
 
-      <div className="container-xl d-flex justify-content-center">
-        <div className="row">
+      <div className="container-xl">
+        <div className="row justify-content-center">
           {ProductData.map((product) => {
+            let price = 0;
+            if (product.varients && product.varients.length)
+              price = product.varients[0].varient_price;
             return (
-              <div className="col-md-3">
+              <div className="col-3" style={{ maxWidth: "max-content" }}>
                 <div className="product-wrapper mb-45 text-center">
                   <div className="product-img-2">
                     <a
-                      href={"/product" + product.productId}
+                      href={"/product" + product._id}
                       className="product-link"
                       data-abc="true"
                     >
                       <img
-                        src={product.image}
+                        src={product.main_image_url}
                         alt=""
                         style={{
                           height: "100%",
@@ -99,7 +36,7 @@ function Third() {
                       ></img>
                     </a>
                     <span>
-                      <i className="fa fa-rupee"></i> 41,000
+                      <i className="fa fa-rupee"></i> {}
                     </span>
                     <div className="product-action">
                       <div className="product-action-style">
@@ -115,7 +52,7 @@ function Third() {
                         <a
                           className="action-cart"
                           title="Buy"
-                          href={"/product/" + product.productId}
+                          href={"/product/" + product._id}
                           data-abc="true"
                         >
                           <i className="fa fa-shopping-cart"></i>{" "}

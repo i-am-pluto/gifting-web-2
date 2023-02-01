@@ -11,18 +11,18 @@ function One({ products }) {
         </h2>
       </center>
 
-      <div className="container-xl d-flex justify-content-center">
-        <div className="row">
+      <div className="container-xl ">
+        <div className="row justify-content-center">
           {ProductData.map((product) => {
             let price = 0;
             if (product.varients && product.varients.length)
               price = product.varients[0].varient_price;
             return (
-              <div className="col-md-3">
+              <div className="col-3" style={{ maxWidth: "max-content" }}>
                 <div className="product-wrapper mb-45 text-center">
                   <div className="product-img-2">
                     <a
-                      href={"/product" + product._id}
+                      href={"/product/" + product._id}
                       className="product-link"
                       data-abc="true"
                     >

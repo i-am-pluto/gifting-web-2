@@ -68,6 +68,46 @@ const ConfirmOrder = () => {
     fetchCustomer();
   }, []);
 
+  function isDate(val) {
+    // Cross realm comptatible
+    return Object.prototype.toString.call(val) === "[object Date]";
+  }
+
+  function isObj(val) {
+    return typeof val === "object";
+  }
+
+  function stringifyValue(val) {
+    if (isObj(val) && !isDate(val)) {
+      return JSON.stringify(val);
+    } else {
+      return val;
+    }
+  }
+
+  function buildForm({ action, params }) {
+    const form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", action);
+    console.log(params);
+    Object.keys(params).forEach((key) => {
+      const input = document.createElement("input");
+      input.setAttribute("type", "hidden");
+      input.setAttribute("name", key);
+      input.setAttribute("value", stringifyValue(params[key]));
+      form.appendChild(input);
+    });
+
+    return form;
+  }
+
+  function post(details) {
+    const form = buildForm(details);
+    document.body.appendChild(form);
+    form.submit();
+    form.remove();
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -92,6 +132,12 @@ const ConfirmOrder = () => {
     console.log("here");
     const data = await response.json();
     console.log(data);
+
+    var information = {
+      action: "https://securegw-stage.paytm.in/order/process",
+      params: data,
+    };
+    post(information);
   };
 
   const handleCancel = async (e) => {
@@ -113,11 +159,13 @@ const ConfirmOrder = () => {
   };
 
   return (
-    <div style={{ marginTop: "90px" }} className="container">
+    <div style={{ marginTop: "110px" }} className="container">
       <br />
-      <h1 style={{ marginLeft: "-10px", marginBottom: "20px" }}>
-        Confirm <b>Order</b>
-      </h1>
+      <center>
+        <h1 style={{ marginLeft: "-10px", marginBottom: "20px" }}>
+          Confirm <b>Order</b>
+        </h1>
+      </center>
       {/* <hr /> */}
 
       <br />
@@ -129,9 +177,11 @@ const ConfirmOrder = () => {
           paddingBottom: "40px",
         }}
       >
-        <h3>
-          Contact <b>Details</b>
-        </h3>
+        <center>
+          <h3>
+            Contact <b>Details</b>
+          </h3>
+        </center>
         <br />
         <div className="row container">
           <div className="col personal-info">
@@ -173,9 +223,11 @@ const ConfirmOrder = () => {
         <br />
         <div className="row">
           <div className="col personal-info">
-            <h3>
-              Address <b>Details</b>
-            </h3>
+            <center>
+              <h3>
+                Address <b>Details</b>
+              </h3>
+            </center>
             <br />
             <div className="container">
               <div className="row mb-3">
@@ -260,7 +312,6 @@ const ConfirmOrder = () => {
                     }}
                   ></input>
                 </div>
-
                 <div className=" col">
                   <select
                     name="tag"
@@ -285,18 +336,23 @@ const ConfirmOrder = () => {
       <br />
       <hr />
       <div className="container">
-        <div className="row">
-          <div className="col">
-            <button className="row col btn btn-danger" onClick={handleCancel}>
-              cancel
-            </button>
+        <center>
+          <div className="row justify-content-center">
+            <div className="col">
+              <button className="row col btn btn-danger" onClick={handleCancel}>
+                cancel
+              </button>
+            </div>
+            <div className="col">
+              <button
+                className="row col btn btn-warning"
+                onClick={handleSubmit}
+              >
+                confirm
+              </button>
+            </div>
           </div>
-          <div className="col">
-            <button className="row col btn btn-warning" onClick={handleSubmit}>
-              confirm
-            </button>
-          </div>
-        </div>
+        </center>
       </div>
       <br />
     </div>

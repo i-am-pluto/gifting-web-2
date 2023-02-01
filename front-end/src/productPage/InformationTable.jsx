@@ -1,6 +1,6 @@
 import React from "react";
 
-function InformationTable({ infoText1, infoText2, informationTable }) {
+function InformationTable({ informationTable }) {
   let Table = [];
   console.log(informationTable);
   for (var i in informationTable) {
@@ -11,10 +11,12 @@ function InformationTable({ infoText1, infoText2, informationTable }) {
   return (
     <div className="container d-flex justify-content-center mt-5">
       {/* <div className="row"> */}
-      <div className="col-sm">{infoText1}</div>
-      <div className="col-sm">
-        <div className="table">
-          <thead>
+      <div className="col-md">
+        <div
+          className="table table-bordered"
+          style={{ maxWidth: "fit-content" }}
+        >
+          <thead className="thead-dark">
             <tr>
               <th className="">Key</th>
               <th>Info</th>
@@ -30,7 +32,6 @@ function InformationTable({ infoText1, infoText2, informationTable }) {
           })}
         </div>
       </div>
-      <div className="col-sm">{infoText2}</div>
       {/* </div> */}
     </div>
   );

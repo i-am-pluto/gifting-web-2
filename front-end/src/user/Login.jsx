@@ -27,7 +27,7 @@ function Login() {
     });
     const data = await response.json();
     if (data.success) {
-      navigate.push("/home");
+      window.location.href = "/home";
     } else {
       alert("Invalid Email or Password");
     }

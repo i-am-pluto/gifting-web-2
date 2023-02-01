@@ -65,9 +65,7 @@ function ArtistProfile({ user }) {
           <div className="container">
             <center>
               <h2>
-                <b>
-                  {profile_user.name.f_name + " " + profile_user.name.l_name}
-                </b>
+                <b>{profile_user.artist_name}</b>
               </h2>
               <h6>{profile_user.bio}</h6>
             </center>
@@ -84,9 +82,11 @@ function ArtistProfile({ user }) {
               <div className="socials d-flex justify-content-evenly">
                 {socials.map((s, i) => {
                   console.log(s);
+                  if (!String(s[1]).startsWith("https://"))
+                    s[1] = "https://" + s[1];
                   return (
-                    <a href={s[1]}>
-                      <i class={`btn fab fa-${s[0]}`}></i>
+                    <a href={s[1]} className="btn">
+                      <i class={`fa fa-${s[0]} text-bigger`}></i>
                     </a>
                   );
                 })}

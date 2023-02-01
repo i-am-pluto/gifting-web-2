@@ -1,64 +1,82 @@
+@media screen and (max-width: 769px) {
+  .container-wrap {
+    margin-top: 103px !important;
+  }
+  .container-wrap h2 {
+    font-size: 25px !important;
+  }
+
+  .margin-set-top {
+    margin-top: 103px !important;
+  }
+}
+.margin-set-top {
+  margin-top: 60px;
+}
+@media screen and (max-width: 500px) {
+  .category_item {
+    width: 70px !important;
+    height: 70px !important;
+    border-radius: 35px !important;
+    margin-top: -42px !important;
+    margin-bottom: 3px !important;
+    transition: transform 0.2s !important;
+  }
+  .category-link {
+    font-size: 13px !important;
+  }
+  .category_parent {
+    margin-bottom: -50px !important;
+  }
+}
+
 .container-wrap {
-    margin-top: 60px;
-    background-color: #fe7f2d;
-    height: 250px;
-    width: 100vw;
-    position: relative;
-    left: calc(-50vw + 50%);
-    border-top: rgb(182, 95, 15) 5px solid;
+  margin-top: 60px;
+  background-color: #78290f;
+  color: #ffecd1;
+  height: 280px;
+  width: 100vw;
+  position: relative;
+  left: calc(-50vw + 50%);
+  padding-top: 5px;
 }
 
 .blockCat {
-    background-color: #f1faee;
-    height: 100px;
-    width: 100vw;
-    position: absolute;
-    left: calc(-50vw + 50%);
-    bottom: 0px;
-}
-
-#circle {
-    width: 100px;
-    height: 100px;
-    background: red;
-    border-radius: 50px;
+  background-image: linear-gradient(#ffecd1, #f5f4f5);
+  height: 100px;
+  width: 100vw;
+  position: absolute;
+  left: calc(-50vw + 50%);
+  bottom: 0px;
 }
 
 .category_item {
-    width: 120px;
-    height: 120px;
-    background: grey;
-    border-radius: 60px;
-    border: 2px solid black;
-    position: relative;
-    margin-top: -60px;
-    transition: transform 0.2s;
+  width: 120px;
+  height: 120px;
+  background: grey;
+  border-radius: 60px;
+  border: 2px solid black;
+  position: relative;
+  margin-top: -60px;
+  overflow: hidden;
+  transition: transform 0.2s;
 }
 
 .category_parent {
-    /* display: flex; */
-    /* flex-direction: row; */
-    /* justify-content: center; */
-    /* align-items: center; */
-    cursor: pointer;
-    transition: transform 0.2s;
+  cursor: pointer;
+  transition: transform 0.2s;
 }
 
 .category_parent:hover {
-    transform: scale(1.05);
-    border-bottom: black 2px solid;
+  transform: scale(1.05);
+  border-bottom: black 2px solid;
 }
 
 .text {
-    position: relative;
+  position: relative;
 }
 
 .category-link {
-    color: black;
-    text-align: center;
-}
-
-.category-link:hover {
-    font-weight: 600;
-    color: black;
+  color: black;
+  text-align: center;
 }

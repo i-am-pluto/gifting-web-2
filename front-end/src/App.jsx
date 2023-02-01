@@ -30,6 +30,8 @@ import Role from "./user/Role";
 import { Varients } from "./Seller/Varients";
 import ConfirmOrder from "./orders/ConfirmOrder";
 import SearchResult from "./searchResult/SearchResult";
+import AddCategories from "./Seller/AddCategories";
+import OrderStatus from "./orders/OrderStatus";
 
 function App() {
   let [user, setUser] = useState({});
@@ -59,7 +61,7 @@ function App() {
             <SellerWelcome />
           </Route>
           <Route exact path="/home">
-            <Home />
+            <Home user={user} />
           </Route>
           <Route exact path="/product/:productId">
             <ProductPage />
@@ -92,6 +94,10 @@ function App() {
             <Varients />
           </Route>
 
+          <Route exact path="/:id/categories">
+            <AddCategories />
+          </Route>
+
           <Route exact path="/search/:pgeno">
             <SearchResult />
           </Route>
@@ -99,7 +105,9 @@ function App() {
           <Route exact path="/:id/confirm">
             <ConfirmOrder />
           </Route>
-
+          <Route exact path="/order/:id">
+            <OrderStatus />
+          </Route>
           <Route exact path="/">
             <Redirect to="/home" />
           </Route>

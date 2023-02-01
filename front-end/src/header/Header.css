@@ -7,12 +7,28 @@
   font-weight: 800;
 }
 
+.header__optionLineOne1 {
+  font-size: 8px;
+}
+.navbar {
+  background-color: #001524;
+  color: #ffecd1 !important;
+}
+.navbar-brand {
+  color: #ffecd1 !important;
+}
+
+.header__optionLineTwo1 {
+  font-size: 10px;
+  font-weight: 700;
+}
+
 .header__option {
   display: flex;
   flex-direction: column;
   margin-left: 10px;
   margin-right: 10px;
-  color: white;
+  color: #ffecd1;
   width: max-content;
 }
 
@@ -28,13 +44,13 @@
 }
 
 .header_ob:hover {
-  outline: 1px solid white;
+  outline: 1px solid #ffecd1;
 }
 
 .header__optionBasket {
   display: flex;
   align-items: center;
-  color: white;
+  color: #ffecd1 !important;
 }
 
 .header__basketCount {
@@ -57,4 +73,53 @@
 
 .brand:hover {
   color: rgb(255, 228, 228);
+}
+.dropdown-trigger {
+  position: relative;
+  /* display: inline-block; */
+}
+.profile-dropdown {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  top: 100%;
+  color: #001524;
+  /* right: 0; */
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  padding: 12px 16px;
+  z-index: 10;
+}
+
+.dropdown-trigger:hover .profile-dropdown {
+  display: block;
+}
+
+.profile-list {
+  position: absolute;
+  /* border: 1px solid #d4d4d4; */
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  /* margin-left: 27px; */
+  /* margin-right: 27px; */
+  /* left: 0;
+  right: 0; */
+  width: fit-content;
+  max-height: 350px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.profile-list div {
+  cursor: pointer;
+  background-color: #f7efe5;
+  color: rgb(26, 25, 25);
+  border-bottom: 1px solid #d4d4d4;
+  overflow-y: hidden;
+}
+.profile-list-item :hover {
+  background-color: #ffecd1;
+  font-weight: bold;
+}
+.profile-list {
+  border: lightblue 1px solid;
 }

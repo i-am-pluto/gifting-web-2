@@ -96,6 +96,13 @@ export const EditProfile = ({ profile_user }) => {
                   var reader = new FileReader();
                   reader.readAsDataURL(input.target.files[0]);
 
+                  if (
+                    !input.target.files[0].type.endsWith("jpeg") &&
+                    !input.target.files[0].type.endsWith("png")
+                  ) {
+                    alert("Profile Picture should either be jpeg or png file");
+                    return;
+                  }
                   reader.onload = (e) => {
                     document
                       .getElementById("profile-pic")

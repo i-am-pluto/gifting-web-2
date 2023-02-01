@@ -59,11 +59,13 @@ function CustomerReviews({ product_id }) {
       );
       const data = await response.json();
 
-      if (!data.success) {
+      if (data.success === false) {
         alert("Failed To add the review");
         return;
       }
 
+      e.target.value = "";
+      alert("The review was added to the product");
       getProductReviews();
     }
   };
@@ -175,7 +177,7 @@ function CustomerReviews({ product_id }) {
         <div className="container">
           <button
             className="col btn btn-warning mb-5"
-            onClick={() => {
+            onClick={(e) => {
               setLoadMoreCounter(loadMoreCounter + 1);
             }}
             {...disable}

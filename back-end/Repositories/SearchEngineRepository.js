@@ -67,7 +67,7 @@ const searchByPriceAscending = async (query, pge_no) => {
         },
       },
     },
-    { $sort: { price: "asc" } },
+    { $sort: { price: 1 } },
     { $skip: pge_no * 50 },
     { $limit: 50 },
   ]);
@@ -104,7 +104,7 @@ const searchByPriceDescending = async (query, pge_no) => {
         },
       },
     },
-    { $sort: { price: "desc" } },
+    { $sort: { price: -1 } },
     { $skip: pge_no * 50 },
     { $limit: 50 },
   ]);

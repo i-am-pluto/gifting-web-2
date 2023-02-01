@@ -7,23 +7,7 @@ const { getCustomerById } = require("../../Repositories/CustomerRepository");
 const productServices = require("../../Services/ProductService");
 const customerService = require("../../Services/CustomerService");
 const AuthMiddleware = require("./AuthMiddleware");
-
-// get a product
-router.get("/:id", async (req, res) => {
-  try {
-    console.log(req.params.id);
-    const product = await productServices.getAProduct(
-      mongoose.Types.ObjectId(mongoose.mongo.ObjectId(req.params.id))
-    );
-    res.json(product);
-  } catch (error) {
-    res.json({
-      success: false,
-      message: error,
-    });
-  }
-  // res.json({});
-});
+const { getVarientById } = require("../../Repositories/VarientRepository");
 
 // get search results
 
@@ -70,6 +54,35 @@ router.post(
         message: "Added The Product Successfully",
         success: true,
       });
+    }
+  }
+);
+
+router.get("/varient/:id", async (req, res) => {
+  try {
+    const varient = await getVarientById(
+      mongoose.mongo.ObjectId(req.params.id)
+    );
+    res.json(varient);
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error });
+  }
+});
+
+router.post(
+  "/:id/addcategories",
+  AuthMiddleware.isArtistToProduct,
+  async (req, res) => {
+    try {
+      const savedProduct = await productServices.addCategoriesToProducts(
+        req.body,
+        mongoose.mongo.ObjectId(req.params.id)
+      );
+      res.json({ success: true, message: "Categories successfully added" });
+    } catch (error) {
+      console.log(error);
+      res.json({ success: false, message: error });
     }
   }
 );
@@ -244,5 +257,80 @@ router.get("/:product_id/varients", async (req, res) => {
 });
 
 // buy the product without adding to cart
+
+// get featured products
+// get latest product from top 5 best selling artists
+router.get("/featured", async (req, res) => {
+  console.log("this was called");
+  try {
+    const products = await productServices.getFeaturedProducts();
+    res.json(products);
+  } catch (error) {
+    console.log(error);
+    res.json({
+      message: error,
+      success: false,
+    });
+  }
+});
+
+router.get("/new", async (req, res) => {
+  try {
+    const products = await productServices.getNewProducts();
+    res.json(products);
+  } catch (error) {
+    console.log(1);
+    console.log(error);
+    res.json({
+      message: error,
+      success: false,
+    });
+  }
+});
+router.get("/bestselling", async (req, res) => {
+  try {
+    const products = await productServices.getMostSelling();
+    res.json(products);
+  } catch (error) {
+    console.log(2);
+    console.log(error);
+    res.json({
+      message: error,
+      success: false,
+    });
+  }
+});
+router.get("/popular", async (req, res) => {
+  try {
+    const products = await productServices.getMostPopular();
+    res.json(products);
+  } catch (error) {
+    console.log(3);
+    console.log(error);
+    res.json({
+      message: error,
+      success: false,
+    });
+  }
+});
+
+// get a product
+
+router.get("/:id", async (req, res) => {
+  try {
+    console.log(req.params);
+    const product = await productServices.getAProduct(
+      mongoose.Types.ObjectId(mongoose.mongo.ObjectId(req.params.id))
+    );
+    res.json(product);
+  } catch (error) {
+    console.log(error);
+    res.json({
+      success: false,
+      message: error,
+    });
+  }
+  // res.json({});
+});
 
 module.exports = router;

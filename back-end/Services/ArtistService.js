@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const Artist = require("../Models/user/ArtistModel");
-const { getArtistById } = require("../Repositories/ArtistRepository");
+const {
+  getArtistById,
+  getArtistBySoldNo,
+} = require("../Repositories/ArtistRepository");
 const { getUserById } = require("../Repositories/UserRepository");
 const { uploadCover } = require("./CloudinaryService");
 const {
@@ -10,25 +13,16 @@ const {
 } = require("./StripeAccnt");
 
 const addAnArtist = async (user) => {
-  let stripe_account = await createAccount(user.id);
-  const stripe_account_link = await createAccountLink(
-    stripe_account.id,
-    user.id
-  );
-  console.log(stripe_account_link);
-  stripe_account = await retrieveAccount(stripe_account.id);
   const artist = new Artist({
     user_id: user.id,
     artist_name: user.name.f_name + " " + user.name.l_name,
     bio: user.bio,
     follower_cunt: 0,
-    stripe_account_id: stripe_account.id,
-    stripe_account_enabled: stripe_account.charges_enabled,
   });
 
   const savedArtist = await artist.save();
 
-  return { ...savedArtist, url: stripe_account_link.url };
+  return { ...savedArtist };
 };
 
 const addAProduct = async (artist, product_id) => {
@@ -62,8 +56,7 @@ const updateArtist = async (artistBody, user_id) => {
 
   artist.socials = artistBody.socials;
   artist.bio = artistBody.bio;
-
-  console.log(typeof artist);
+  artist.artist_name = artistBody.artist_name;
   const savedArtist = await artist.save();
   return savedArtist;
 };
@@ -74,6 +67,20 @@ const setCoverPic = async (image, user_id) => {
   user.cover_url = uploadResponse.secure_url;
   await user.save();
   return uploadResponse;
+};
+
+const getBestSelling = async () => {
+  const artists = await getArtistBySoldNo();
+  const response = [];
+  for (const artist of artists) {
+    response.push({
+      id: artist.user_id,
+      artist_name: artist.artist_name,
+      pfp_url: (await getUserById(artist.user_id)).pfp_url,
+      products: artist.products,
+    });
+  }
+  return response;
 };
 
 const getArtistPorfile = async (artist_id) => {
@@ -105,4 +112,5 @@ module.exports = {
   updateArtist,
   setCoverPic,
   getArtistPorfile,
+  getBestSelling,
 };

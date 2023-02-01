@@ -7,7 +7,9 @@ const {
   createOrderFromProduct,
   confirmOrder,
   removeOrder,
+  markOrderPaid,
 } = require("./OrderService");
+const PaytmPaymentSearvice = require("./PaytmPaymentSearvice");
 
 const createOrderGroup = async (cart_id, customer_id) => {
   const cart = await getCartById(cart_id);
@@ -15,7 +17,7 @@ const createOrderGroup = async (cart_id, customer_id) => {
 
   const ordersGroup = new OrdersGroup();
 
-  for (cart_item in cart_items) {
+  for (cart_item of cart_items) {
     const order = await createOrderFromCartItem(cart_item, customer_id);
     ordersGroup.order_items.push({
       product_id: order.order_item.product_id,
@@ -69,7 +71,6 @@ const cancelOrderGroup = async (orderGroupId, customer_id) => {
     const order_item = orderGroup.order_items[i];
     const product = await getProductById(order_item.product_id);
     const artist_id = product.artist.artist_id;
-    console.log(order_item);
     await removeOrder(order_item.order_id, customer_id, artist_id);
   }
 
@@ -78,18 +79,40 @@ const cancelOrderGroup = async (orderGroupId, customer_id) => {
 
 const confirmOrderGroup = async (orderGroupId, order_details, customer_id) => {
   const orderGroup = await getOrderGroup(orderGroupId);
+
+  let amount = 0;
+
   for (var i = 0; i < orderGroup.order_items.length; i++) {
     const order_item = orderGroup.order_items[i];
-    console.log(order_item);
     const confirmedOrder = await confirmOrder(
       order_item.order_id,
       order_details,
       customer_id
     );
+    const varient = await getVarientById(order_item.varient_id);
+    amount += varient.varient_price;
   }
 
   orderGroup.order_status = "PAYMENT_NOT_RECIEVED";
   await orderGroup.save();
+  // generate payment link
+
+  const paytmOrder = await PaytmPaymentSearvice.createOrder({
+    orderId: orderGroup._id,
+    c_id: orderGroup.c_id,
+    amount,
+  });
+
+  return paytmOrder;
+};
+
+const transactionOfOrderGroupCompleted = async (orderGroupId) => {
+  const orderGroup = await getOrderGroup(orderGroupId);
+  for (var i = 0; i < orderGroup.order_items.length; i++) {
+    const order_item = orderGroup.order_items[i];
+    const paidOrder = await markOrderPaid(order_item.order_id);
+  }
+  orderGroup.order_status = "PAYMENT_RECIVED";
   return orderGroup;
 };
 
@@ -99,4 +122,5 @@ module.exports = {
   getOrderGroup,
   cancelOrderGroup,
   confirmOrderGroup,
+  transactionOfOrderGroupCompleted,
 };
